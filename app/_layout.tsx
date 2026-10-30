@@ -1,7 +1,7 @@
 import "@/global.css";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
@@ -31,6 +31,7 @@ const appTheme = {
 export default function RootLayout() {
   const [ready, setReady] = useState(false);
   const bootstrap = useAuth((s) => s.bootstrap);
+  const user = useAuth((s) => s.user);
 
   useEffect(() => {
     (async () => {
@@ -40,6 +41,12 @@ export default function RootLayout() {
       await SplashScreen.hideAsync();
     })();
   }, [bootstrap]);
+
+  useEffect(() => {
+    if (ready && user && !user.onboarded) {
+      router.replace("/(auth)/onboarding");
+    }
+  }, [ready, user]);
 
   if (!ready) return null;
 
