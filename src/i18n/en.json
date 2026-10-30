@@ -1,0 +1,112 @@
+{
+  "app": {
+    "name": "Cricket Amigo",
+    "tagline": "Train. Score. Stream. Belong."
+  },
+  "common": {
+    "continue": "Continue",
+    "skip": "Skip for now",
+    "back": "Back",
+    "save": "Save",
+    "cancel": "Cancel",
+    "done": "Done",
+    "loading": "Loading…",
+    "retry": "Retry",
+    "search": "Search",
+    "seeAll": "See all",
+    "comingSoon": "Coming soon"
+  },
+  "auth": {
+    "welcomeTitle": "Your cricket journey starts here",
+    "welcomeSubtitle": "Record, analyze and improve your game with free AI coaching.",
+    "getStarted": "Get started",
+    "login": "Log in",
+    "register": "Create account",
+    "name": "Name",
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "loginPlaceholder": "Email or username",
+    "haveAccount": "Already have an account?",
+    "noAccount": "New to Cricket Amigo?",
+    "continueGuest": "Continue as guest",
+    "logout": "Log out",
+    "invalidCredentials": "Invalid credentials",
+    "usernameTaken": "That username is taken",
+    "socialSoon": "Social sign-in coming soon"
+  },
+  "onboarding": {
+    "languageTitle": "Choose your language",
+    "interestsTitle": "What do you want to improve?",
+    "roleTitle": "How do you play cricket?",
+    "player": "Player",
+    "coach": "Coach",
+    "scorer": "Scorer",
+    "fan": "Fan"
+  },
+  "tabs": {
+    "train": "Train",
+    "library": "Library",
+    "score": "Score",
+    "live": "Live",
+    "play": "Play"
+  },
+  "train": {
+    "title": "Train",
+    "subtitle": "Pick a skill to work on",
+    "batting": "Batting",
+    "bowling": "Bowling",
+    "fielding": "Fielding",
+    "keeping": "Wicket-keeping",
+    "recordSession": "Record session",
+    "emptyHint": "Your training sessions will appear here."
+  },
+  "library": {
+    "title": "Library",
+    "emptyTitle": "No videos yet",
+    "emptyHint": "Record your first session and it'll show up here."
+  },
+  "score": {
+    "title": "Score",
+    "newMatch": "New match",
+    "emptyHint": "Your matches will appear here."
+  },
+  "live": {
+    "title": "Live",
+    "goLive": "Go live",
+    "emptyHint": "Live streams will appear here."
+  },
+  "play": {
+    "title": "Play",
+    "emptyHint": "Mini-games land here soon."
+  },
+  "friends": {
+    "title": "Friends",
+    "findFriends": "Find friends",
+    "requests": "Requests",
+    "suggestions": "Suggestions",
+    "add": "Add",
+    "accept": "Accept",
+    "decline": "Decline",
+    "emptyHint": "Search for friends by name or username."
+  },
+  "profile": {
+    "title": "Profile",
+    "editProfile": "Edit profile",
+    "stats": "Stats",
+    "credits": "Credits",
+    "friends": "Friends",
+    "memberSince": "Member since"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System",
+    "privacy": "Privacy",
+    "version": "Version"
+  }
+}

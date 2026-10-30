@@ -1,0 +1,112 @@
+{
+  "app": {
+    "name": "Cricket Amigo",
+    "tagline": "Treine. Pontue. Transmita. Pertenca."
+  },
+  "common": {
+    "continue": "Continuar",
+    "skip": "Pular por enquanto",
+    "back": "Voltar",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "done": "Concluído",
+    "loading": "Carregando…",
+    "retry": "Tentar novamente",
+    "search": "Buscar",
+    "seeAll": "Ver tudo",
+    "comingSoon": "Em breve"
+  },
+  "auth": {
+    "welcomeTitle": "Sua jornada no críquete começa aqui",
+    "welcomeSubtitle": "Grave, analise e melhore seu jogo com treino de IA grátis.",
+    "getStarted": "Começar",
+    "login": "Entrar",
+    "register": "Criar conta",
+    "name": "Nome",
+    "username": "Nome de usuário",
+    "email": "E-mail",
+    "password": "Senha",
+    "confirmPassword": "Confirmar senha",
+    "loginPlaceholder": "E-mail ou usuário",
+    "haveAccount": "Já tem uma conta?",
+    "noAccount": "Novo no Cricket Amigo?",
+    "continueGuest": "Continuar como convidado",
+    "logout": "Sair",
+    "invalidCredentials": "Credenciais inválidas",
+    "usernameTaken": "Este nome de usuário já existe",
+    "socialSoon": "Login social em breve"
+  },
+  "onboarding": {
+    "languageTitle": "Escolha seu idioma",
+    "interestsTitle": "O que você quer melhorar?",
+    "roleTitle": "Como você joga críquete?",
+    "player": "Jogador",
+    "coach": "Técnico",
+    "scorer": "Anotador",
+    "fan": "Fã"
+  },
+  "tabs": {
+    "train": "Treinar",
+    "library": "Biblioteca",
+    "score": "Placar",
+    "live": "Ao vivo",
+    "play": "Jogos"
+  },
+  "train": {
+    "title": "Treinar",
+    "subtitle": "Escolha uma habilidade para treinar",
+    "batting": "Rebatida",
+    "bowling": "Arremesso",
+    "fielding": "Defesa",
+    "keeping": "Goleiro",
+    "recordSession": "Gravar sessão",
+    "emptyHint": "Suas sessões de treino aparecerão aqui."
+  },
+  "library": {
+    "title": "Biblioteca",
+    "emptyTitle": "Nenhum vídeo ainda",
+    "emptyHint": "Grave sua primeira sessão e ela aparecerá aqui."
+  },
+  "score": {
+    "title": "Placar",
+    "newMatch": "Nova partida",
+    "emptyHint": "Suas partidas aparecerão aqui."
+  },
+  "live": {
+    "title": "Ao vivo",
+    "goLive": "Transmitir",
+    "emptyHint": "Transmissões ao vivo aparecerão aqui."
+  },
+  "play": {
+    "title": "Jogos",
+    "emptyHint": "Mini-jogos chegam em breve."
+  },
+  "friends": {
+    "title": "Amigos",
+    "findFriends": "Encontrar amigos",
+    "requests": "Solicitações",
+    "suggestions": "Sugestões",
+    "add": "Adicionar",
+    "accept": "Aceitar",
+    "decline": "Recusar",
+    "emptyHint": "Busque amigos por nome ou usuário."
+  },
+  "profile": {
+    "title": "Perfil",
+    "editProfile": "Editar perfil",
+    "stats": "Estatísticas",
+    "credits": "Créditos",
+    "friends": "Amigos",
+    "memberSince": "Membro desde"
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "theme": "Tema",
+    "dark": "Escuro",
+    "light": "Claro",
+    "system": "Sistema",
+    "privacy": "Privacidade",
+    "version": "Versão"
+  }
+}
