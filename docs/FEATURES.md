@@ -17,12 +17,14 @@ What the product does, where it lives, and current flag state. Keep in sync with
 | App roles & permissions (Spatie)      | ✅ live   | —                      | `member`, `super-admin`; `is_admin` in payloads        |
 | Super admin account                   | ✅ seeded | —                      | `admin@cricketamigo.com` (dev creds — rotate for prod) |
 | Media library (Spatie)                | ✅ live   | —                      | avatars via `avatar` collection + `thumb` conversion   |
+| Guided recording ×4 + per-rep clips   | ✅ live   | —                      | `record/[discipline]`, expo-camera                     |
+| Local video library (SQLite)          | ✅ live   | —                      | `library/`, `src/lib/clips.ts`                         |
+| Trim + share + save-to-gallery        | ✅ live   | —                      | `library/[id]`, expo-video-clipper                     |
 
 ## Flagged-off until later phases
 
 | Feature                                 | Target phase | Flag                     |
 | --------------------------------------- | ------------ | ------------------------ |
-| Guided video recording ×4 disciplines   | 1            | —                        |
 | On-device AI coaching (MediaPipe packs) | 2            | `coaching_packs`         |
 | Teams + URL/QR invites                  | 3            | —                        |
 | Cloud video upload (R2)                 | 3+           | `cloud_upload`           |

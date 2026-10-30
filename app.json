@@ -27,7 +27,11 @@
           "action": "VIEW",
           "autoVerify": true,
           "data": [
-            { "scheme": "cricketamigo", "host": "*", "pathPrefix": "/join" },
+            {
+              "scheme": "cricketamigo",
+              "host": "*",
+              "pathPrefix": "/join"
+            },
             {
               "scheme": "https",
               "host": "cricketamigo.test",
@@ -53,6 +57,24 @@
           "image": "./assets/images/splash-icon.png",
           "resizeMode": "contain",
           "backgroundColor": "#052e16"
+        }
+      ],
+      "expo-video",
+      "expo-sharing",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow Cricket Amigo to record your training videos.",
+          "microphonePermission": "Allow Cricket Amigo to record audio with your training videos.",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow Cricket Amigo to save training clips to your gallery.",
+          "savePhotosPermission": "Allow Cricket Amigo to save training clips to your gallery.",
+          "isAccessMediaLocationEnabled": true
         }
       ]
     ],

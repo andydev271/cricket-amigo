@@ -65,7 +65,66 @@
   "library": {
     "title": "Library",
     "emptyTitle": "No videos yet",
-    "emptyHint": "Record your first session and it'll show up here."
+    "emptyHint": "Record your first session and it'll show up here.",
+    "recordFirst": "Record a session",
+    "rep": "Rep {{n}}"
+  },
+  "record": {
+    "permissionTitle": "Camera access needed",
+    "permissionHint": "Cricket Amigo records your reps so the AI can coach you. Allow camera and microphone access.",
+    "permissionGrant": "Allow access",
+    "rep": "Rep {{count}}",
+    "maxLen": "max {{s}}s per rep",
+    "start": "Record rep",
+    "nextRep": "Record next rep",
+    "stop": "Stop",
+    "saving": "Saving…",
+    "done": "Done",
+    "saveError": "Couldn't save that clip — try again.",
+    "frame": {
+      "batting": "Side view — full body + stumps in frame",
+      "bowling": "Side view — full run-up path in frame",
+      "fielding": "Front view — room to move either direction",
+      "keeping": "Side view — crouch + stumps in frame"
+    },
+    "tips": {
+      "batting": [
+        "Prop the phone at hip height, side-on to your stance",
+        "Fit your whole body and the stumps in frame",
+        "Play one shot per rep — tap stop right after"
+      ],
+      "bowling": [
+        "Prop the phone side-on covering your full run-up",
+        "Bowl one delivery per rep",
+        "Landmarks matter: plant foot, release, follow-through"
+      ],
+      "fielding": [
+        "Face the camera with room to move left and right",
+        "One pickup + throw per rep",
+        "Stay low — the AI checks your body position"
+      ],
+      "keeping": [
+        "Prop the phone side-on showing you and the stumps",
+        "One take or stumping per rep",
+        "Start in your normal crouch"
+      ]
+    }
+  },
+  "clip": {
+    "missing": "Clip not found.",
+    "trimTitle": "Trim this clip",
+    "trimHint": "Play to a moment, then mark in/out — saves as a new clip.",
+    "markIn": "In",
+    "markOut": "Out",
+    "saveTrim": "Save trimmed clip",
+    "trimError": "Trim failed — try again.",
+    "share": "Share clip",
+    "saveGallery": "Save to gallery",
+    "savedToGallery": "Saved to your gallery.",
+    "delete": "Delete clip",
+    "deleteTitle": "Delete this clip?",
+    "deleteHint": "The video file is removed from this device.",
+    "deleteConfirm": "Delete"
   },
   "score": {
     "title": "Score",

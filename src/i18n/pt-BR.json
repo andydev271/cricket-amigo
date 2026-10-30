@@ -65,7 +65,66 @@
   "library": {
     "title": "Biblioteca",
     "emptyTitle": "Nenhum vídeo ainda",
-    "emptyHint": "Grave sua primeira sessão e ela aparecerá aqui."
+    "emptyHint": "Grave sua primeira sessão e ela aparecerá aqui.",
+    "recordFirst": "Gravar uma sessão",
+    "rep": "Rep {{n}}"
+  },
+  "record": {
+    "permissionTitle": "Acesso à câmera necessário",
+    "permissionHint": "O Cricket Amigo grava suas repetições para a IA treinar você. Permita acesso à câmera e ao microfone.",
+    "permissionGrant": "Permitir acesso",
+    "rep": "Rep {{count}}",
+    "maxLen": "máx. {{s}}s por rep",
+    "start": "Gravar rep",
+    "nextRep": "Gravar próxima rep",
+    "stop": "Parar",
+    "saving": "Salvando…",
+    "done": "Concluir",
+    "saveError": "Não foi possível salvar esse clipe — tente de novo.",
+    "frame": {
+      "batting": "Vista lateral — corpo inteiro + stumps no quadro",
+      "bowling": "Vista lateral — toda a corrida de aproximação no quadro",
+      "fielding": "Vista frontal — espaço para mover aos dois lados",
+      "keeping": "Vista lateral — agachamento + stumps no quadro"
+    },
+    "tips": {
+      "batting": [
+        "Apoie o celular na altura do quadril, de lado para sua posição",
+        "Enquadre o corpo inteiro e os stumps",
+        "Jogue uma rebatida por rep — toque parar logo depois"
+      ],
+      "bowling": [
+        "Apoie o celular de lado cobrindo toda sua corrida",
+        "Arremesse uma bola por rep",
+        "Referências importam: pé de apoio, soltura, acompanhamento"
+      ],
+      "fielding": [
+        "Fique de frente para a câmera com espaço para os dois lados",
+        "Uma coleta + arremesso por rep",
+        "Fique baixo — a IA avalia sua posição corporal"
+      ],
+      "keeping": [
+        "Apoie o celular de lado mostrando você e os stumps",
+        "Uma pega ou stumping por rep",
+        "Comece no seu agachamento normal"
+      ]
+    }
+  },
+  "clip": {
+    "missing": "Clipe não encontrado.",
+    "trimTitle": "Cortar este clipe",
+    "trimHint": "Reproduza até o momento e marque início/fim — salva como novo clipe.",
+    "markIn": "Início",
+    "markOut": "Fim",
+    "saveTrim": "Salvar clipe cortado",
+    "trimError": "Falha ao cortar — tente de novo.",
+    "share": "Compartilhar clipe",
+    "saveGallery": "Salvar na galeria",
+    "savedToGallery": "Salvo na sua galeria.",
+    "delete": "Excluir clipe",
+    "deleteTitle": "Excluir este clipe?",
+    "deleteHint": "O arquivo de vídeo será removido deste dispositivo.",
+    "deleteConfirm": "Excluir"
   },
   "score": {
     "title": "Placar",
