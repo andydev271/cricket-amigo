@@ -96,9 +96,13 @@ export interface ApiUser {
   city: string | null;
   country: string | null;
   dominant_hand: string | null;
-  roles: string[] | null;
+  /** Spatie app roles (member, super-admin, ...) — access control */
+  roles: string[];
+  /** Cricket profile tags (player, coach, scorer, fan) — display metadata */
+  sport_roles: string[] | null;
   interests: string[] | null;
   credits: number;
+  is_admin: boolean;
   is_guest: boolean;
   onboarded: boolean;
   friend_count?: number;

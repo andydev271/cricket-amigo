@@ -1,20 +1,20 @@
-import { router } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
-import { useTranslation } from 'react-i18next';
+import { router } from "expo-router";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Pressable, ScrollView, Text, View } from "react-native";
 
-import { api } from '@/src/lib/api';
-import { AppLocale, setLocale, SUPPORTED_LOCALES } from '@/src/lib/i18n';
-import { useAuth } from '@/src/stores/auth';
-import { Button, Screen, Subtitle, Title } from '@/src/ui/primitives';
+import { api } from "@/src/lib/api";
+import { AppLocale, setLocale, SUPPORTED_LOCALES } from "@/src/lib/i18n";
+import { useAuth } from "@/src/stores/auth";
+import { Button, Screen, Subtitle, Title } from "@/src/ui/primitives";
 
 const LOCALE_LABELS: Record<AppLocale, string> = {
-  en: 'English',
-  'pt-BR': 'Português (Brasil)',
+  en: "English",
+  "pt-BR": "Português (Brasil)",
 };
 
-const INTERESTS = ['batting', 'bowling', 'fielding', 'keeping'] as const;
-const ROLES = ['player', 'coach', 'scorer', 'fan'] as const;
+const INTERESTS = ["batting", "bowling", "fielding", "keeping"] as const;
+const ROLES = ["player", "coach", "scorer", "fan"] as const;
 
 export default function OnboardingScreen() {
   const { t, i18n } = useTranslation();
@@ -23,7 +23,7 @@ export default function OnboardingScreen() {
   const [locale, setLocaleState] = useState<AppLocale>(
     (SUPPORTED_LOCALES as readonly string[]).includes(i18n.language)
       ? (i18n.language as AppLocale)
-      : 'en',
+      : "en",
   );
   const [interests, setInterests] = useState<string[]>([]);
   const [role, setRole] = useState<string | null>(null);
@@ -37,13 +37,16 @@ export default function OnboardingScreen() {
   const finish = async () => {
     setSaving(true);
     try {
-      const user = await api.me.update({ roles: role ? [role] : [], interests });
+      const user = await api.me.update({
+        sport_roles: role ? [role] : [],
+        interests,
+      });
       setUser(user);
     } catch {
       // guest/offline — continue anyway
     }
     setSaving(false);
-    router.replace('/(tabs)');
+    router.replace("/(tabs)");
   };
 
   return (
@@ -51,7 +54,7 @@ export default function OnboardingScreen() {
       <ScrollView contentContainerClassName="flex-1 justify-center px-6 pb-10">
         {step === 0 && (
           <View>
-            <Title>{t('onboarding.languageTitle')}</Title>
+            <Title>{t("onboarding.languageTitle")}</Title>
             <View className="mt-6 gap-3">
               {SUPPORTED_LOCALES.map((l) => (
                 <Pressable
@@ -61,20 +64,28 @@ export default function OnboardingScreen() {
                     setLocale(l);
                   }}
                   className={`rounded-2xl border px-5 py-4 ${
-                    locale === l ? 'border-pitch-500 bg-pitch-900/60' : 'border-slate-600/40 bg-night-800'
+                    locale === l
+                      ? "border-pitch-500 bg-pitch-900/60"
+                      : "border-slate-600/40 bg-night-800"
                   }`}
                 >
-                  <Text className="text-base font-semibold text-slate-50">{LOCALE_LABELS[l]}</Text>
+                  <Text className="text-base font-semibold text-slate-50">
+                    {LOCALE_LABELS[l]}
+                  </Text>
                 </Pressable>
               ))}
             </View>
-            <Button title={t('common.continue')} onPress={() => setStep(1)} className="mt-8" />
+            <Button
+              title={t("common.continue")}
+              onPress={() => setStep(1)}
+              className="mt-8"
+            />
           </View>
         )}
 
         {step === 1 && (
           <View>
-            <Title>{t('onboarding.interestsTitle')}</Title>
+            <Title>{t("onboarding.interestsTitle")}</Title>
             <View className="mt-6 flex-row flex-wrap gap-3">
               {INTERESTS.map((key) => {
                 const active = interests.includes(key);
@@ -83,36 +94,57 @@ export default function OnboardingScreen() {
                     key={key}
                     onPress={() => toggleInterest(key)}
                     className={`rounded-2xl border px-5 py-4 ${
-                      active ? 'border-pitch-500 bg-pitch-900/60' : 'border-slate-600/40 bg-night-800'
+                      active
+                        ? "border-pitch-500 bg-pitch-900/60"
+                        : "border-slate-600/40 bg-night-800"
                     }`}
                   >
-                    <Text className="text-base font-semibold text-slate-50">{t(`train.${key}`)}</Text>
+                    <Text className="text-base font-semibold text-slate-50">
+                      {t(`train.${key}`)}
+                    </Text>
                   </Pressable>
                 );
               })}
             </View>
-            <Button title={t('common.continue')} onPress={() => setStep(2)} className="mt-8" />
-            <Button title={t('common.skip')} variant="ghost" onPress={() => setStep(2)} />
+            <Button
+              title={t("common.continue")}
+              onPress={() => setStep(2)}
+              className="mt-8"
+            />
+            <Button
+              title={t("common.skip")}
+              variant="ghost"
+              onPress={() => setStep(2)}
+            />
           </View>
         )}
 
         {step === 2 && (
           <View>
-            <Title>{t('onboarding.roleTitle')}</Title>
+            <Title>{t("onboarding.roleTitle")}</Title>
             <View className="mt-6 gap-3">
               {ROLES.map((key) => (
                 <Pressable
                   key={key}
                   onPress={() => setRole(key)}
                   className={`rounded-2xl border px-5 py-4 ${
-                    role === key ? 'border-pitch-500 bg-pitch-900/60' : 'border-slate-600/40 bg-night-800'
+                    role === key
+                      ? "border-pitch-500 bg-pitch-900/60"
+                      : "border-slate-600/40 bg-night-800"
                   }`}
                 >
-                  <Text className="text-base font-semibold text-slate-50">{t(`onboarding.${key}`)}</Text>
+                  <Text className="text-base font-semibold text-slate-50">
+                    {t(`onboarding.${key}`)}
+                  </Text>
                 </Pressable>
               ))}
             </View>
-            <Button title={t('common.done')} onPress={finish} loading={saving} className="mt-8" />
+            <Button
+              title={t("common.done")}
+              onPress={finish}
+              loading={saving}
+              className="mt-8"
+            />
           </View>
         )}
 
