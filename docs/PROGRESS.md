@@ -13,7 +13,7 @@ Tracks what phase we're in and what's shipped. Update this file every phase (and
 | 1     | Record + Library           | ✅ done      | Guided recording ×4, per-rep capture, trim, SQLite library — 2026-10-30   |
 | 2     | AI Coaching                | 🔶 framework | Pipeline + packs built; needs real-device spike to calibrate — 2026-10-31 |
 | 3     | Teams + Cloud + Credits    | ✅ done      | Teams, invites URL/QR, credits ledger, clip upload — 2026-10-31           |
-| 4     | Scorer + Live              | ⬜           | Ball-by-ball, Reverb, YouTube RTMP + local record                         |
+| 4     | Scorer + Live              | ✅ done      | Scoring engine, Reverb broadcast, RTMP stream console — 2026-10-31        |
 | 5     | Tournaments + Community    | ⬜           | NRR tables, fixtures, leaderboards, boards                                |
 | 6     | Games + Ads + Monetization | ⬜           | Trivia, Catch It, Picks, polite ads                                       |
 | 7     | Brazil launch              | ⬜           | Play internal test, listings                                              |
@@ -124,6 +124,40 @@ Tracks what phase we're in and what's shipped. Update this file every phase (and
 - `credits/` — balance card, earn buttons (test grants in free_mode), history
 - Settings rows: My teams + Credits
 
+## Phase 4 — shipped 2026-10-31
+
+### Backend (`cricket-amigo-backend`)
+
+- **Schema:** `matches` (teams link-or-free-text, overs, ball type, toss, result,
+  stream fields) + `match_players` (XI, order, c/†) + `innings` (denormalized
+  counters + target) + `deliveries` (source of truth — every ball a row)
+- **`ScoringService`:** record ball (row-locked txn), extras accounting
+  (wd/nb/b/lb), wickets, strike rotation + next-participant derivation,
+  over/innings/match completion, chase target + result text, `undo` = delete
+  last ball + recalc (emptied 2nd innings auto-removed, match reopens)
+- **API:** `POST /matches` wizard, `/start`, `/innings/{i}/balls`, `/undo`,
+  `/stream`, `PUT /matches/{id}` end; `GET /matches/{id}/score` **public**
+- **Broadcast:** `BallScored` → public channel `match.{id}` w/ full score
+  summary via **Laravel Reverb** (`BROADCAST_CONNECTION=reverb`,
+  `php artisan reverb:start` to serve ws://:8080)
+- **Scorer authz:** creator or owner/admin/coach/scorer of a linked team
+- 47 tests / 203 assertions green; full match lifecycle smoke-tested live
+
+### Mobile (`cricket-amigo`)
+
+- `match/new` — wizard: teams + XIs (2–15 players), overs, ball type, ground/city, toss
+- `match/[id]` — hub: live score card, XI lists, actions (start/scorer/watch/stream/share)
+- `match/[id]/scorer` — striker/non-striker/bowler pickers (server-derived next
+  state), run pad, extras + combo pad (nb+4, wd+4, b/lb), 3-step wicket modal
+  (type → who's out → fielder), undo
+- `match/[id]/watch` — live scorecard via `subscribeMatch` (laravel-echo +
+  pusher-js → Reverb), at-the-crease card, last-12-balls strip, YouTube embed
+- `match/[id]/stream` — RTMP console: `ApiVideoLiveStreamView` (api.video SDK)
+  start/stop, connection status, watch-URL persisted for spectator embed.
+  **Stream key stays on-device** — never sent to our server
+- Score tab = match list (live-first); Live tab = live matches for spectators
+- `src/lib/livestream.ts` + `.web.ts` platform split keeps codegen out of web bundle
+
 ## Known gaps / next decisions
 
 - **Analysis is compile-verified only** — same dev-build checkpoint as the recorder.
@@ -131,6 +165,15 @@ Tracks what phase we're in and what's shipped. Update this file every phase (and
   `--legacy-peer-deps`; watch for native incompat at first `prebuild`.
 - Pack authoring point is `config/coaching_packs.php`; TS copy in
   `src/analysis/packs.ts` is the offline fallback — keep versions in sync manually.
+- **Reverb not yet tested end-to-end** — config + event dispatch verified;
+  `reverb:start` + a real client subscribe pending dev-build device test.
+- **Stream camera** is `@api.video/react-native-livestream` (no
+  `nitro-rtmp-publisher` exists — earlier plan referenced a package that isn't
+  on npm). No local-record-while-streaming (single camera) — fallback is
+  switch to the recorder and publish MP4 later; simultaneous stream+record
+  needs native work.
+- Scorer extras are tap-count presets (nb+bat-runs, byes 1/2/4) — long-tail
+  combos (wd+5 runs) need a custom-runs entry later.
 - Social login needs Google/Apple client IDs (backend stubs exist)
 - Vhost is HTTP+HTTPS; app points at https://cricketamigo.test via `app.json → extra.apiUrl` — self-signed cert means dev builds must trust it or use http/tunnel for devices. Consider `cloudflared` URL when testing on physical devices.
 - `AGENTS.md`/`CLAUDE.md` in backend came with Laravel skeleton — review for useful conventions.

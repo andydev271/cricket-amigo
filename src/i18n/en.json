@@ -14,7 +14,9 @@
     "retry": "Retry",
     "search": "Search",
     "seeAll": "See all",
-    "comingSoon": "Coming soon"
+    "comingSoon": "Coming soon",
+    "optional": "Optional",
+    "share": "Share"
   },
   "auth": {
     "welcomeTitle": "Your cricket journey starts here",
@@ -180,12 +182,15 @@
   "score": {
     "title": "Score",
     "newMatch": "New match",
-    "emptyHint": "Your matches will appear here."
+    "emptyHint": "Create a match to start scoring ball by ball.",
+    "empty": "No matches yet",
+    "overs": "overs"
   },
   "live": {
     "title": "Live",
     "goLive": "Go live",
-    "emptyHint": "Live streams will appear here."
+    "emptyHint": "Matches being scored right now will appear here — watch ball by ball.",
+    "empty": "No live matches"
   },
   "play": {
     "title": "Play",
@@ -277,5 +282,75 @@
     "system": "System",
     "privacy": "Privacy",
     "version": "Version"
+  },
+  "match": {
+    "new": "New match",
+    "teamA": "Team A",
+    "teamB": "Team B",
+    "teamName": "Team name",
+    "player": "Player",
+    "addPlayer": "Add player",
+    "overs": "Overs",
+    "ballType": "Ball type",
+    "ball": {
+      "leather": "Leather",
+      "tennis": "Tennis",
+      "street": "Street"
+    },
+    "ground": "Ground",
+    "city": "City",
+    "toss": "Toss",
+    "bat": "Bat",
+    "bowl": "Bowl",
+    "create": "Create match",
+    "start": "Start match",
+    "openScorer": "Open scorer",
+    "watch": "Watch live",
+    "streamSetup": "Stream setup",
+    "live": "LIVE",
+    "realtime": "Live updates on",
+    "innings": "Innings",
+    "need": "Target {{runs}}",
+    "target": "Target",
+    "extras": "Extras",
+    "atTheCrease": "At the crease",
+    "tossWon": "{{team}} won the toss — {{decision}}"
+  },
+  "scorer": {
+    "striker": "Striker",
+    "nonStriker": "Non-striker",
+    "bowler": "Bowler",
+    "runs": "Runs",
+    "extras": "Extras",
+    "extraRuns": "Extra combos",
+    "wicket": "WICKET",
+    "undo": "Undo",
+    "howOut": "How out?",
+    "whoOut": "Who is out?",
+    "fielder": "Fielder",
+    "confirmWicket": "Confirm wicket",
+    "need": "Need {{runs}} off {{balls}}",
+    "wicketType": {
+      "bowled": "Bowled",
+      "caught": "Caught",
+      "lbw": "LBW",
+      "run_out": "Run out",
+      "stumped": "Stumped",
+      "hit_wicket": "Hit wicket"
+    }
+  },
+  "stream": {
+    "title": "Live stream",
+    "subtitle": "Stream this match to YouTube via RTMP",
+    "noNative": "The stream camera needs a development build on a real device. You can still set the watch link here.",
+    "rtmpUrl": "RTMP URL (e.g. rtmp://a.rtmp.youtube.com/live2)",
+    "streamKey": "Stream key",
+    "watchUrl": "Watch link (YouTube video/live URL) for spectators",
+    "goLive": "Go live",
+    "connecting": "Connecting…",
+    "stop": "Stop stream",
+    "failed": "Connection failed — check the key, network, and try again",
+    "ended": "Stream ended — recording can continue locally for later publishing",
+    "fallbackHint": "If the stream drops, keep recording on-device from the recorder and publish the MP4 later — nothing is lost."
   }
 }

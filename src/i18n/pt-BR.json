@@ -14,7 +14,9 @@
     "retry": "Tentar novamente",
     "search": "Buscar",
     "seeAll": "Ver tudo",
-    "comingSoon": "Em breve"
+    "comingSoon": "Em breve",
+    "optional": "Opcional",
+    "share": "Compartilhar"
   },
   "auth": {
     "welcomeTitle": "Sua jornada no críquete começa aqui",
@@ -180,12 +182,15 @@
   "score": {
     "title": "Placar",
     "newMatch": "Nova partida",
-    "emptyHint": "Suas partidas aparecerão aqui."
+    "emptyHint": "Crie uma partida para marcar bola a bola.",
+    "empty": "Nenhuma partida ainda",
+    "overs": "overs"
   },
   "live": {
     "title": "Ao vivo",
     "goLive": "Transmitir",
-    "emptyHint": "Transmissões ao vivo aparecerão aqui."
+    "emptyHint": "Partidas sendo marcadas agora aparecerão aqui — assista bola a bola.",
+    "empty": "Nenhuma partida ao vivo"
   },
   "play": {
     "title": "Jogos",
@@ -277,5 +282,75 @@
     "system": "Sistema",
     "privacy": "Privacidade",
     "version": "Versão"
+  },
+  "match": {
+    "new": "Nova partida",
+    "teamA": "Time A",
+    "teamB": "Time B",
+    "teamName": "Nome do time",
+    "player": "Jogador",
+    "addPlayer": "Adicionar jogador",
+    "overs": "Overs",
+    "ballType": "Tipo de bola",
+    "ball": {
+      "leather": "Couro",
+      "tennis": "Tênis",
+      "street": "Rua"
+    },
+    "ground": "Campo",
+    "city": "Cidade",
+    "toss": "Cara ou coroa",
+    "bat": "Rebater",
+    "bowl": "Lançar",
+    "create": "Criar partida",
+    "start": "Iniciar partida",
+    "openScorer": "Abrir placar",
+    "watch": "Assistir ao vivo",
+    "streamSetup": "Configurar transmissão",
+    "live": "AO VIVO",
+    "realtime": "Atualizações ao vivo",
+    "innings": "Entrada",
+    "need": "Meta {{runs}}",
+    "target": "Meta",
+    "extras": "Extras",
+    "atTheCrease": "No crease",
+    "tossWon": "{{team}} venceu o sorteio — {{decision}}"
+  },
+  "scorer": {
+    "striker": "Rebatedor",
+    "nonStriker": "Não rebatedor",
+    "bowler": "Lançador",
+    "runs": "Corridas",
+    "extras": "Extras",
+    "extraRuns": "Combinações de extras",
+    "wicket": "WICKET",
+    "undo": "Desfazer",
+    "howOut": "Como foi eliminado?",
+    "whoOut": "Quem saiu?",
+    "fielder": "Fielder",
+    "confirmWicket": "Confirmar wicket",
+    "need": "Faltam {{runs}} em {{balls}}",
+    "wicketType": {
+      "bowled": "Bowled",
+      "caught": "Caught",
+      "lbw": "LBW",
+      "run_out": "Run out",
+      "stumped": "Stumped",
+      "hit_wicket": "Hit wicket"
+    }
+  },
+  "stream": {
+    "title": "Transmissão ao vivo",
+    "subtitle": "Transmita esta partida para o YouTube via RTMP",
+    "noNative": "A câmera de transmissão precisa de um build de desenvolvimento em um dispositivo real. Você ainda pode configurar o link aqui.",
+    "rtmpUrl": "URL RTMP (ex: rtmp://a.rtmp.youtube.com/live2)",
+    "streamKey": "Chave de transmissão",
+    "watchUrl": "Link para assistir (URL do YouTube) para espectadores",
+    "goLive": "Iniciar transmissão",
+    "connecting": "Conectando…",
+    "stop": "Encerrar transmissão",
+    "failed": "Falha na conexão — verifique a chave e a rede e tente novamente",
+    "ended": "Transmissão encerrada — a gravação pode continuar no dispositivo para publicar depois",
+    "fallbackHint": "Se a transmissão cair, continue gravando no aparelho pelo gravador e publique o MP4 depois — nada se perde."
   }
 }

@@ -139,6 +139,120 @@ export interface CreditTx {
   created_at: string;
 }
 
+export interface MatchPlayer {
+  id: number;
+  side: "a" | "b";
+  name: string;
+  is_captain: boolean;
+  is_keeper: boolean;
+  batting_order: number;
+}
+
+export interface MatchInnings {
+  id: number;
+  number: number;
+  batting: "a" | "b";
+  runs: number;
+  wickets: number;
+  overs: string;
+  target: number | null;
+  status: "in_progress" | "completed";
+}
+
+export interface MatchDetail {
+  id: number;
+  status: "scheduled" | "live" | "completed" | "abandoned";
+  can_score: boolean;
+  team_a: { id: number | null; name: string };
+  team_b: { id: number | null; name: string };
+  overs_limit: number;
+  ball_type: string;
+  ground: string | null;
+  city: string | null;
+  toss_winner: "a" | "b" | null;
+  toss_decision: "bat" | "bowl" | null;
+  result: { winner: "a" | "b" | null; text: string } | null;
+  stream_status: "off" | "live" | "ended";
+  players: MatchPlayer[];
+  innings: MatchInnings[];
+}
+
+export interface ScoreSummary {
+  id: number;
+  status: MatchDetail["status"];
+  team_a: string;
+  team_b: string;
+  ground: string | null;
+  overs_limit: number;
+  innings: Array<{
+    number: number;
+    batting: string;
+    runs: number;
+    wickets: number;
+    overs: string;
+    target: number | null;
+    status: string;
+    extras: { wides: number; no_balls: number; byes: number; leg_byes: number };
+  }>;
+  current: {
+    striker: { id: number; name: string; runs: number; balls: number } | null;
+    non_striker: {
+      id: number;
+      name: string;
+      runs: number;
+      balls: number;
+    } | null;
+    bowler: {
+      id: number;
+      name: string;
+      overs: string;
+      runs: number;
+      wickets: number;
+    } | null;
+    last_balls: string[];
+    required: { runs: number; balls: number } | null;
+  } | null;
+  result: MatchDetail["result"];
+  stream_url: string | null;
+}
+
+export interface MatchListItem {
+  id: number;
+  team_a: string;
+  team_b: string;
+  ground: string | null;
+  overs_limit: number;
+  status: MatchDetail["status"];
+  result: MatchDetail["result"];
+  innings: Array<{
+    number: number;
+    batting: string;
+    runs: number;
+    wickets: number;
+    overs: string;
+  }>;
+  can_score: boolean;
+}
+
+export interface BallInput {
+  striker_id: number;
+  non_striker_id: number;
+  bowler_id: number;
+  bat_runs?: number;
+  extra_type?: "none" | "wide" | "no_ball" | "bye" | "leg_bye";
+  extra_runs?: number;
+  wicket_type?:
+    | "bowled"
+    | "caught"
+    | "lbw"
+    | "run_out"
+    | "stumped"
+    | "hit_wicket"
+    | null;
+  out_player_id?: number | null;
+  fielder_id?: number | null;
+}
+
 export interface Flags {
   free_mode: boolean;
   min_supported_version: string;
@@ -250,6 +364,67 @@ export const api = {
         `/invites/${token}/accept`,
         { method: "POST" },
       ),
+  },
+
+  matches: {
+    list: () =>
+      request<{ data: MatchListItem[] }>("/matches").then((r) => r.data),
+    create: (data: {
+      team_a: {
+        id?: number;
+        name?: string;
+        players: Array<{
+          name: string;
+          is_captain?: boolean;
+          is_keeper?: boolean;
+        }>;
+      };
+      team_b: {
+        id?: number;
+        name?: string;
+        players: Array<{
+          name: string;
+          is_captain?: boolean;
+          is_keeper?: boolean;
+        }>;
+      };
+      overs_limit?: number;
+      ball_type?: string;
+      ground?: string;
+      city?: string;
+      toss_winner?: "a" | "b";
+      toss_decision?: "bat" | "bowl";
+    }) => request<MatchDetail>("/matches", { method: "POST", body: data }),
+    get: (id: number) => request<MatchDetail>(`/matches/${id}`),
+    score: (id: number) => request<ScoreSummary>(`/matches/${id}/score`),
+    start: (id: number) =>
+      request<MatchDetail>(`/matches/${id}/start`, { method: "POST" }),
+    ball: (matchId: number, inningsId: number, ball: BallInput) =>
+      request<{ delivery: unknown; score: ScoreSummary }>(
+        `/matches/${matchId}/innings/${inningsId}/balls`,
+        { method: "POST", body: ball },
+      ),
+    undo: (id: number) =>
+      request<{ undone: number; score: ScoreSummary }>(`/matches/${id}/undo`, {
+        method: "POST",
+      }),
+    setStream: (
+      id: number,
+      data: {
+        stream_url?: string;
+        stream_key?: string;
+        stream_status: "off" | "live" | "ended";
+      },
+    ) =>
+      request<{ stream_status: string; stream_url: string | null }>(
+        `/matches/${id}/stream`,
+        { method: "POST", body: data },
+      ),
+    end: (id: number, status: "completed" | "abandoned") =>
+      request<{ status: string }>(`/matches/${id}`, {
+        method: "PUT",
+        body: { status },
+      }),
   },
 
   credits: {
