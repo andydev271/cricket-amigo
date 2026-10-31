@@ -209,6 +209,65 @@
     "friends": "Friends",
     "memberSince": "Member since"
   },
+  "teams": {
+    "title": "My teams",
+    "new": "New team",
+    "create": "Create team",
+    "createError": "Couldn't create the team — try again.",
+    "namePlaceholder": "Team name",
+    "cityPlaceholder": "City (optional)",
+    "empty": "No teams yet",
+    "emptyHint": "Create one or join with an invite link.",
+    "members": "{{count}} member",
+    "members_other": "{{count}} members",
+    "roster": "Roster",
+    "you": "(you)",
+    "invite": "Invite players",
+    "inviteHint": "Scan the QR or share the link — they join as players.",
+    "shareInvite": "Share invite link",
+    "inviteShare": "Join my team \"{{team}}\" on Cricket Amigo: {{url}}",
+    "leave": "Leave team",
+    "leaveTitle": "Leave this team?",
+    "leaveConfirm": "Leave",
+    "removeTitle": "Remove from team?",
+    "removeConfirm": "Remove",
+    "role": {
+      "owner": "Owner",
+      "admin": "Admin",
+      "coach": "Coach",
+      "scorer": "Scorer",
+      "player": "Player",
+      "viewer": "Viewer"
+    }
+  },
+  "join": {
+    "title": "Join team",
+    "asRole": "You'll join as {{role}}",
+    "accept": "Join team",
+    "welcome": "You're in!",
+    "openTeam": "Open team",
+    "invalid": "This invite link is invalid.",
+    "expired": "This invite expired or was fully used.",
+    "failed": "Couldn't join — try again.",
+    "errorTitle": "Invite problem"
+  },
+  "credits": {
+    "title": "Credits",
+    "balance": "Your balance",
+    "earnHint": "Earn credits by watching rewarded ads — spend them on streaming and cloud storage later.",
+    "watchAd": "Watch ad · +10",
+    "dailyBonus": "Daily bonus · +5",
+    "history": "History",
+    "empty": "No transactions yet.",
+    "kind": {
+      "rewarded_ad": "Rewarded ad",
+      "daily_bonus": "Daily bonus",
+      "grant": "Bonus",
+      "spend_stream": "Live stream",
+      "spend_cloud": "Cloud storage",
+      "adjust": "Adjustment"
+    }
+  },
   "settings": {
     "title": "Settings",
     "language": "Language",

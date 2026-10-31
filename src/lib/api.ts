@@ -108,6 +108,37 @@ export interface ApiUser {
   friend_count?: number;
 }
 
+export interface Team {
+  id: number;
+  name: string;
+  city: string | null;
+  country: string | null;
+  member_count: number;
+  my_role: string;
+  members?: Array<{
+    id: number;
+    name: string;
+    username: string | null;
+    avatar_url: string | null;
+    role: string;
+  }>;
+}
+
+export interface InvitePreview {
+  usable: boolean;
+  team: { name: string; city: string | null; member_count: number };
+  role: string;
+  expires_at: string | null;
+}
+
+export interface CreditTx {
+  id: number;
+  amount: number;
+  balance_after: number;
+  kind: string;
+  created_at: string;
+}
+
 export interface Flags {
   free_mode: boolean;
   min_supported_version: string;
@@ -194,6 +225,43 @@ export const api = {
       request(`/friends/respond/${requestId}`, {
         method: "POST",
         body: { action },
+      }),
+  },
+
+  teams: {
+    list: () => request<Team[]>("/teams"),
+    create: (data: { name: string; city?: string; country?: string }) =>
+      request<Team>("/teams", { method: "POST", body: data }),
+    get: (id: number) => request<Team>(`/teams/${id}`),
+    leave: (id: number) => request(`/teams/${id}/leave`, { method: "POST" }),
+    removeMember: (id: number, userId: number) =>
+      request(`/teams/${id}/members/${userId}`, { method: "DELETE" }),
+    createInvite: (id: number, opts?: { role?: string; max_uses?: number }) =>
+      request<{ token: string; path: string }>(`/teams/${id}/invites`, {
+        method: "POST",
+        body: opts ?? {},
+      }),
+  },
+
+  invites: {
+    preview: (token: string) => request<InvitePreview>(`/invites/${token}`),
+    accept: (token: string) =>
+      request<{ joined: boolean; team_id: number; team: string; role: string }>(
+        `/invites/${token}/accept`,
+        { method: "POST" },
+      ),
+  },
+
+  credits: {
+    get: () => request<{ balance: number; recent: CreditTx[] }>("/credits"),
+    history: () =>
+      request<{ data: CreditTx[]; next_cursor: string | null }>(
+        "/credits/history",
+      ),
+    earn: (kind: "rewarded_ad" | "daily_bonus", ref?: string) =>
+      request<{ balance: number; granted: number }>("/credits/earn", {
+        method: "POST",
+        body: { kind, ref },
       }),
   },
 };

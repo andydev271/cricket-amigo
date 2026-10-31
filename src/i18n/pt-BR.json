@@ -209,6 +209,65 @@
     "friends": "Amigos",
     "memberSince": "Membro desde"
   },
+  "teams": {
+    "title": "Meus times",
+    "new": "Novo time",
+    "create": "Criar time",
+    "createError": "Não foi possível criar o time — tente de novo.",
+    "namePlaceholder": "Nome do time",
+    "cityPlaceholder": "Cidade (opcional)",
+    "empty": "Nenhum time ainda",
+    "emptyHint": "Crie um ou entre com um link de convite.",
+    "members": "{{count}} membro",
+    "members_other": "{{count}} membros",
+    "roster": "Elenco",
+    "you": "(você)",
+    "invite": "Convidar jogadores",
+    "inviteHint": "Escaneie o QR ou compartilhe o link — eles entram como jogadores.",
+    "shareInvite": "Compartilhar link",
+    "inviteShare": "Entre no meu time \"{{team}}\" no Cricket Amigo: {{url}}",
+    "leave": "Sair do time",
+    "leaveTitle": "Sair deste time?",
+    "leaveConfirm": "Sair",
+    "removeTitle": "Remover do time?",
+    "removeConfirm": "Remover",
+    "role": {
+      "owner": "Dono",
+      "admin": "Admin",
+      "coach": "Técnico",
+      "scorer": "Anotador",
+      "player": "Jogador",
+      "viewer": "Espectador"
+    }
+  },
+  "join": {
+    "title": "Entrar no time",
+    "asRole": "Você entrará como {{role}}",
+    "accept": "Entrar no time",
+    "welcome": "Você entrou!",
+    "openTeam": "Abrir time",
+    "invalid": "Este link de convite é inválido.",
+    "expired": "Este convite expirou ou foi totalmente usado.",
+    "failed": "Não foi possível entrar — tente de novo.",
+    "errorTitle": "Problema no convite"
+  },
+  "credits": {
+    "title": "Créditos",
+    "balance": "Seu saldo",
+    "earnHint": "Ganhe créditos assistindo anúncios recompensados — gaste em transmissões e armazenamento na nuvem depois.",
+    "watchAd": "Assistir anúncio · +10",
+    "dailyBonus": "Bônus diário · +5",
+    "history": "Histórico",
+    "empty": "Nenhuma transação ainda.",
+    "kind": {
+      "rewarded_ad": "Anúncio recompensado",
+      "daily_bonus": "Bônus diário",
+      "grant": "Bônus",
+      "spend_stream": "Transmissão ao vivo",
+      "spend_cloud": "Armazenamento na nuvem",
+      "adjust": "Ajuste"
+    }
+  },
   "settings": {
     "title": "Configurações",
     "language": "Idioma",

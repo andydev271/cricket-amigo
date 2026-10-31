@@ -21,6 +21,9 @@ What the product does, where it lives, and current flag state. Keep in sync with
 | Local video library (SQLite)          | ✅ live   | —                      | `library/`, `src/lib/clips.ts`                         |
 | Trim + share + save-to-gallery        | ✅ live   | —                      | `library/[id]`, expo-video-clipper                     |
 | On-device AI coaching (pose packs)    | 🔶 alpha  | —                      | `src/analysis/*`, clip detail; calibrate on device     |
+| Teams + roles + URL/QR invites        | ✅ live   | —                      | `teams/`, `join/[token]`                               |
+| Credits ledger                        | ✅ live   | —                      | `credits/`, ledger API (SSV-ready refs)                |
+| Cloud clip upload                     | ✅ live   | `cloud_upload`         | `POST /me/clips` (free_mode bypass)                    |
 
 ## Flagged-off until later phases
 

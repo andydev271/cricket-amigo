@@ -12,7 +12,7 @@ Tracks what phase we're in and what's shipped. Update this file every phase (and
 | 0     | Foundation + Auth + Docs   | ✅ done      | Scaffolds, auth, onboarding, i18n, friends, flags — 2026-10-30            |
 | 1     | Record + Library           | ✅ done      | Guided recording ×4, per-rep capture, trim, SQLite library — 2026-10-30   |
 | 2     | AI Coaching                | 🔶 framework | Pipeline + packs built; needs real-device spike to calibrate — 2026-10-31 |
-| 3     | Teams + Cloud + Credits    | ⬜           | Invites URL/QR, credits ledger, AdMob (off)                               |
+| 3     | Teams + Cloud + Credits    | ✅ done      | Teams, invites URL/QR, credits ledger, clip upload — 2026-10-31           |
 | 4     | Scorer + Live              | ⬜           | Ball-by-ball, Reverb, YouTube RTMP + local record                         |
 | 5     | Tournaments + Community    | ⬜           | NRR tables, fixtures, leaderboards, boards                                |
 | 6     | Games + Ads + Monetization | ⬜           | Trivia, Catch It, Picks, polite ads                                       |
@@ -97,6 +97,32 @@ Tracks what phase we're in and what's shipped. Update this file every phase (and
 - [ ] Verify pose coverage % on real framing (side-on, hip height)
 - [ ] Calibrate pack thresholds from golden clips (values marked v1)
 - [ ] Time full-clip analysis on target hardware (8fps sampling, lite model)
+
+## Phase 3 — shipped 2026-10-31
+
+### Backend (`cricket-amigo-backend`)
+
+- **Teams:** `teams` + `team_members` (roles: owner/admin/coach/scorer/player/viewer).
+  Create/list/detail, members leave, managers remove members (owner/admin rules)
+- **Invites:** `team_invites` — token + preset role + optional max_uses + expiry.
+  `GET /invites/{token}` public preview, `POST /invites/{token}/accept` joins.
+  App builds `cricketamigo://join/{token}` deep links + QR codes
+- **Credits ledger:** `credit_transactions` — row-locked balance write, never
+  negative, replay-safe refs (AdMob SSV contract ready). `GET /credits`,
+  `/credits/history`, `POST /credits/earn` (rewarded_ad +10 / daily_bonus +5
+  from flags config)
+- **Cloud clips:** `POST /me/clips` flag-gated (`cloud_upload`, bypassed in
+  free_mode) → media library storage; R2 later = disk config swap
+- 36 tests / 162 assertions green; invite → join → credits flow smoke-tested live
+
+### Mobile (`cricket-amigo`)
+
+- `teams/` — my teams (role badges), create form, detail roster
+- `teams/[id]` — members, managers mint invite → **QR code + shareable
+  `cricketamigo://join/` link**, leave/remove-member flows
+- `join/[token]` — deep-link target: team preview → accept → joined → open team
+- `credits/` — balance card, earn buttons (test grants in free_mode), history
+- Settings rows: My teams + Credits
 
 ## Known gaps / next decisions
 
