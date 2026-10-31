@@ -1,10 +1,15 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 import { api } from "@/src/lib/api";
-import { ApiVideoLiveStreamView as Cam } from "@/src/lib/livestream";
+import {
+    nitroCallback as callback,
+    RtmpPublisherView as Cam,
+    requestRtmpPermissions,
+    type RtmpPublisherViewMethods,
+} from "@/src/lib/livestream";
 import {
     Button,
     Card,
@@ -14,12 +19,16 @@ import {
     Title,
 } from "@/src/ui/primitives";
 
+// Null on web — the fallback card renders instead.
+const CamView = Cam as unknown as React.ComponentType<Record<string, unknown>> | null;
+
 export default function StreamSetupScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { t } = useTranslation();
   const matchId = Number(id);
-  const camRef = useRef<any>(null);
+  const publisher = useRef<RtmpPublisherViewMethods | null>(null);
 
+  const [permitted, setPermitted] = useState(false);
   const [rtmpUrl, setRtmpUrl] = useState("rtmp://a.rtmp.youtube.com/live2");
   const [streamKey, setStreamKey] = useState("");
   const [watchUrl, setWatchUrl] = useState("");
@@ -28,6 +37,32 @@ export default function StreamSetupScreen() {
   >("idle");
   const [saving, setSaving] = useState(false);
 
+  useEffect(() => {
+    requestRtmpPermissions().then(({ granted }) => setPermitted(granted));
+  }, []);
+
+  // Stable identity required — a new callback each render re-inits the camera.
+  const hybridRef = useMemo(
+    () => callback((ref: RtmpPublisherViewMethods) => {
+      publisher.current = ref;
+      const rotation = ref.getCameraOrientation();
+      ref.prepareVideo(1280, 720, 30, 2_500_000, 2, rotation);
+      ref.prepareAudio(128_000, 44_100, false);
+      ref.startPreview("back", 1280, 720);
+      ref.setAutoReconnect(5, 3000);
+      ref.setOnConnectionEvent((event) => {
+        if (event === "connectionSuccess") setStatus("live");
+        else if (event === "connectionFailed" || event === "authError")
+          setStatus("failed");
+        else if (event === "disconnect")
+          setStatus((s) => (s === "live" ? "ended" : s));
+        else if (event === "connectionStarted" || event === "reconnecting")
+          setStatus("connecting");
+      });
+    }),
+    [],
+  );
+
   const canStart =
     rtmpUrl.trim() &&
     streamKey.trim() &&
@@ -35,18 +70,21 @@ export default function StreamSetupScreen() {
     status !== "connecting";
 
   const goLive = async () => {
-    if (!camRef.current || !canStart) return;
+    if (!publisher.current || !canStart) return;
     setStatus("connecting");
     setSaving(true);
     try {
       // Persist watch URL so spectators see the embed + mark match stream live.
+      // The stream key itself never leaves the device.
       await api.matches.setStream(matchId, {
         stream_url: watchUrl.trim() || undefined,
         stream_key: undefined,
         stream_status: "live",
       });
-      await camRef.current.startStreaming(streamKey.trim(), rtmpUrl.trim());
-      // onConnectionSuccess flips status to live
+      const key = streamKey.trim();
+      publisher.current.startStream(
+        `${rtmpUrl.trim().replace(/\/$/, "")}/${key}`,
+      );
     } catch {
       setStatus("failed");
     } finally {
@@ -55,7 +93,7 @@ export default function StreamSetupScreen() {
   };
 
   const stop = () => {
-    camRef.current?.stopStreaming();
+    publisher.current?.stopStream();
     setStatus("ended");
     api.matches.setStream(matchId, { stream_status: "ended" }).catch(() => {});
   };
@@ -67,20 +105,14 @@ export default function StreamSetupScreen() {
         <Title className="mb-1">{t("stream.title")}</Title>
         <Subtitle className="mb-4">{t("stream.subtitle")}</Subtitle>
 
-        {Cam ? (
+        {CamView && permitted ? (
           <View className="mb-4 aspect-[9/16] max-h-[45%] self-stretch overflow-hidden rounded-2xl bg-black">
-            <Cam
-              ref={camRef}
-              style={{ flex: 1 }}
-              camera="back"
-              video={{ bitrate: 2_500_000, fps: 30, resolution: "720p" }}
-              audio={{ bitrate: 128_000, isStereo: false }}
-              onConnectionSuccess={() => setStatus("live")}
-              onConnectionFailed={() => setStatus("failed")}
-              onDisconnect={() =>
-                setStatus((s) => (s === "live" ? "ended" : s))
-              }
-              onPermissionsDenied={() => setStatus("failed")}
+            <CamView
+              style={StyleSheet.absoluteFill}
+              hybridRef={hybridRef}
+              videoCodec="h264"
+              audioCodec="aac"
+              aspectRatioMode="adjust"
             />
             {status === "live" && (
               <View className="absolute left-3 top-3 flex-row items-center rounded-full bg-red-600 px-3 py-1">
@@ -92,7 +124,7 @@ export default function StreamSetupScreen() {
         ) : (
           <Card className="mb-4">
             <Text className="text-sm text-slate-300">
-              {t("stream.noNative")}
+              {CamView ? t("stream.noPermission") : t("stream.noNative")}
             </Text>
           </Card>
         )}
@@ -137,7 +169,7 @@ export default function StreamSetupScreen() {
             }
             onPress={goLive}
             loading={saving}
-            disabled={!canStart || !Cam}
+            disabled={!canStart || !CamView || !permitted}
           />
         ) : (
           <Button title={t("stream.stop")} variant="danger" onPress={stop} />

@@ -79,7 +79,8 @@
           "savePhotosPermission": "Allow Cricket Amigo to save training clips to your gallery.",
           "isAccessMediaLocationEnabled": true
         }
-      ]
+      ],
+      "react-native-nitro-rtmp-publisher"
     ],
     "extra": {
       "apiUrl": "https://cricketamigo.test"

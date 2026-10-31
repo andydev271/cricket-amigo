@@ -362,7 +362,8 @@
     "stop": "Encerrar transmissão",
     "failed": "Falha na conexão — verifique a chave e a rede e tente novamente",
     "ended": "Transmissão encerrada — a gravação pode continuar no dispositivo para publicar depois",
-    "fallbackHint": "Se a transmissão cair, continue gravando no aparelho pelo gravador e publique o MP4 depois — nada se perde."
+    "fallbackHint": "Se a transmissão cair, continue gravando no aparelho pelo gravador e publique o MP4 depois — nada se perde.",
+    "noPermission": "Permissão de câmera e microfone é necessária para transmitir."
   },
   "tournaments": {
     "title": "Torneios",

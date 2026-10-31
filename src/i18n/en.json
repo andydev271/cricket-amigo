@@ -362,7 +362,8 @@
     "stop": "Stop stream",
     "failed": "Connection failed — check the key, network, and try again",
     "ended": "Stream ended — recording can continue locally for later publishing",
-    "fallbackHint": "If the stream drops, keep recording on-device from the recorder and publish the MP4 later — nothing is lost."
+    "fallbackHint": "If the stream drops, keep recording on-device from the recorder and publish the MP4 later — nothing is lost.",
+    "noPermission": "Camera and microphone permission is required to stream."
   },
   "tournaments": {
     "title": "Tournaments",
