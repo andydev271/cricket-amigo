@@ -81,7 +81,7 @@ export default function FriendsScreen() {
           {(
             [
               ["/community/leaderboard", "community.leaderboard"],
-              ["/community/looking-for", "community.lookingFor"],
+              ["/community/looking_for", "community.lookingFor"],
               ["/community/requests", "community.requests"],
             ] as const
           ).map(([href, label]) => (

@@ -3,7 +3,7 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, RefreshControl, Text, View } from "react-native";
 
-import { AdBanner } from '@/src/ads/Banner';
+import { AdBanner } from '@/src/ads/banner';
 import { api, type MatchListItem } from "@/src/lib/api";
 import { colors } from "@/src/theme";
 import { Button, Card, EmptyState, Screen, Title } from "@/src/ui/primitives";

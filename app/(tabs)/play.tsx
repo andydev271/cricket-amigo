@@ -3,7 +3,7 @@ import { Link } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { ScrollView, Text, View } from "react-native";
 
-import { AdBanner } from "@/src/ads/Banner";
+import { AdBanner } from "@/src/ads/banner";
 import { api } from "@/src/lib/api";
 import { Card, Screen, Title } from "@/src/ui/primitives";
 
@@ -46,7 +46,7 @@ export default function PlayScreen() {
               : ""}
           </Text>
           <Link
-            href="/games/catch-it"
+            href="/games/catch_it"
             className="mt-2.5 font-bold text-pitch-400"
           >
             {t("play.play")}

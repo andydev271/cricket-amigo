@@ -2,7 +2,7 @@ import { analyzePoseVideo, type PoseVideoFrame } from "expo-mediapipe-pose";
 
 import type { Clip } from "../lib/clips";
 import { runPack, usableFrames } from "./engine";
-import { getPack } from "./packsRemote";
+import { getPack } from "./packs_remote";
 import type { AnalysisResult } from "./types";
 
 const SAMPLING_FPS = 8;

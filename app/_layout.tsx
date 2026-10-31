@@ -6,7 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 
-import { syncPacks } from "@/src/analysis/packsRemote";
+import { syncPacks } from "@/src/analysis/packs_remote";
 import { i18n, initI18n } from "@/src/lib/i18n";
 import { useAuth } from "@/src/stores/auth";
 import { colors } from "@/src/theme";
