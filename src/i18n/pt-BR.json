@@ -194,7 +194,18 @@
   },
   "play": {
     "title": "Jogos",
-    "emptyHint": "Mini-jogos chegam em breve."
+    "emptyHint": "Mini-jogos chegam em breve.",
+    "trivia": "Trivia Diária de Críquete",
+    "triviaDesc": "5 perguntas por dia. Cada acerto rende créditos.",
+    "catchIt": "Pega a Bola!",
+    "catchItDesc": "30 segundos. Toque na bola antes que ela suma.",
+    "yourBest": "Seu recorde: {{score}}",
+    "picks": "Palpites de Partida",
+    "picksDesc": "Palpite no vencedor em qualquer partida — acertos rendem créditos.",
+    "viewMatches": "Ver partidas",
+    "play": "Jogar agora",
+    "leaderboard": "Ranking — Pega a Bola",
+    "noScores": "Sem pontuações ainda — seja o primeiro."
   },
   "friends": {
     "title": "Amigos",
@@ -411,5 +422,30 @@
     "challengePick": "Enviar desafio para {{team}} de:",
     "challengeSent": "Desafio enviado — eles verão em Pedidos de partida.",
     "needTeam": "Entre ou crie um time primeiro para enviar desafios."
+  },
+  "trivia": {
+    "title": "Trivia Diária",
+    "empty": "Sem trivia hoje — volte amanhã.",
+    "next": "Próxima",
+    "result": "Você acertou {{score}} / {{total}}",
+    "creditsNote": "Os créditos entram no seu saldo automaticamente. Volte amanhã para novas perguntas."
+  },
+  "catchIt": {
+    "title": "Pega a Bola!",
+    "how": "Uma bola aparece em algum lugar do campo — toque nela antes que suma. Você tem 30 segundos!",
+    "start": "Começar",
+    "best": "Recorde: {{score}}",
+    "newBest": "Novo recorde pessoal! 🏆",
+    "again": "Boas mãos — de novo?"
+  },
+  "picks": {
+    "title": "Quem vence?",
+    "won": "✓ Palpite certo — créditos ganhos!",
+    "lost": "Não foi dessa vez — boa sorte na próxima.",
+    "reward": "{{count}} fãs palpitaram · acertos rendem créditos"
+  },
+  "ads": {
+    "sponsored": "Patrocinado",
+    "bannerMessage": "Apoie o Cricket Amigo — 20% off em equipamentos de críquete"
   }
 }

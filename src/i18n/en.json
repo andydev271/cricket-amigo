@@ -194,7 +194,18 @@
   },
   "play": {
     "title": "Play",
-    "emptyHint": "Mini-games land here soon."
+    "emptyHint": "Mini-games land here soon.",
+    "trivia": "Daily Cricket Trivia",
+    "triviaDesc": "5 questions a day. Every correct answer earns credits.",
+    "catchIt": "Catch It!",
+    "catchItDesc": "30 seconds. Tap the ball before it vanishes.",
+    "yourBest": "Your best: {{score}}",
+    "picks": "Match Picks",
+    "picksDesc": "Predict the winner on any match page — right picks earn credits.",
+    "viewMatches": "Browse matches",
+    "play": "Play now",
+    "leaderboard": "Catch It leaderboard",
+    "noScores": "No scores yet — be the first."
   },
   "friends": {
     "title": "Friends",
@@ -411,5 +422,30 @@
     "challengePick": "Send a challenge to {{team}} from:",
     "challengeSent": "Challenge sent — they'll see it in Match requests.",
     "needTeam": "Join or create a team first to send challenges."
+  },
+  "trivia": {
+    "title": "Daily Trivia",
+    "empty": "No trivia today — check back tomorrow.",
+    "next": "Next",
+    "result": "You scored {{score}} / {{total}}",
+    "creditsNote": "Credits are added to your balance automatically. Come back tomorrow for a fresh set."
+  },
+  "catchIt": {
+    "title": "Catch It!",
+    "how": "A ball appears somewhere on the field — tap it before it disappears. You have 30 seconds!",
+    "start": "Start",
+    "best": "Best: {{score}}",
+    "newBest": "New personal best! 🏆",
+    "again": "Nice hands — go again?"
+  },
+  "picks": {
+    "title": "Who wins?",
+    "won": "✓ Correct pick — +credits earned!",
+    "lost": "Not this time — better luck next match.",
+    "reward": "{{count}} fans have picked · correct picks earn credits"
+  },
+  "ads": {
+    "sponsored": "Sponsored",
+    "bannerMessage": "Support Cricket Amigo — grab 20% off cricket gear"
   }
 }

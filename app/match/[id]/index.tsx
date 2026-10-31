@@ -11,6 +11,75 @@ import { ScrollView, Share, Text, View } from "react-native";
 import { api, type MatchDetail, type MatchPlayer } from "@/src/lib/api";
 import { Button, Card, Screen, Subtitle, Title } from "@/src/ui/primitives";
 
+function PredictCard({ match }: { match: MatchDetail }) {
+  const { t } = useTranslation();
+  const [pick, setPick] = useState<{
+    pick: "a" | "b" | null;
+    correct: boolean | null;
+    count_a: number;
+    count_b: number;
+  } | null>(null);
+  const [busyPick, setBusyPick] = useState(false);
+
+  const loadPick = useCallback(() => {
+    api.games
+      .myPick(match.id)
+      .then(setPick)
+      .catch(() => {});
+  }, [match.id]);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadPick();
+    }, [loadPick]),
+  );
+
+  const vote = async (side: "a" | "b") => {
+    setBusyPick(true);
+    try {
+      await api.games.predict(match.id, side);
+      loadPick();
+    } finally {
+      setBusyPick(false);
+    }
+  };
+
+  if (!pick) return null;
+  const total = pick.count_a + pick.count_b;
+  const finished = match.status === "completed";
+
+  return (
+    <Card className="mb-4">
+      <Text className="mb-2 font-bold text-slate-200">{t("picks.title")}</Text>
+      {pick.correct !== null ? (
+        <Text className="mb-2 text-sm font-semibold text-gold-400">
+          {pick.correct ? t("picks.won") : t("picks.lost")}
+        </Text>
+      ) : null}
+      <View className="flex-row gap-2">
+        {(["a", "b"] as const).map((side) => {
+          const name = side === "a" ? match.team_a.name : match.team_b.name;
+          const mine = pick.pick === side;
+          const disabled = finished || pick.correct !== null || busyPick;
+          return (
+            <Button
+              key={side}
+              title={`${mine ? "✓ " : ""}${name}${total ? ` · ${side === "a" ? pick.count_a : pick.count_b}` : ""}`}
+              variant={mine ? "primary" : "secondary"}
+              disabled={disabled}
+              onPress={() => vote(side)}
+              className="flex-1"
+            />
+          );
+        })}
+      </View>
+      <Text className="mt-2 text-xs text-slate-500">
+        {t("picks.reward", { count: total })}
+      </Text>
+    </Card>
+  );
+}
+
 function XiList({
   title,
   players,
@@ -133,6 +202,9 @@ export default function MatchHubScreen() {
             </Text>
           )}
         </Card>
+
+        {/* Fan pick */}
+        <PredictCard match={match} />
 
         {/* Actions */}
         {match.status === "scheduled" && canScore && (

@@ -594,6 +594,62 @@ export const api = {
       ),
   },
 
+  games: {
+    trivia: () =>
+      request<{
+        attempt: { correct: number; answered: number; finished: boolean };
+        questions: Array<{
+          id: number;
+          question: string;
+          options: string[];
+          difficulty: string;
+        }>;
+        answered_ids: number[];
+      }>("/games/trivia"),
+    answerTrivia: (question_id: number, choice: number) =>
+      request<{
+        correct: boolean | null;
+        answer_index?: number;
+        answered: number;
+        finished: boolean;
+        score: number;
+        granted: number;
+        already_answered?: boolean;
+      }>("/games/trivia/answer", {
+        method: "POST",
+        body: { question_id, choice },
+      }),
+    predict: (matchId: number, pick: "a" | "b") =>
+      request<{ pick: string; match_id: number }>(
+        `/matches/${matchId}/predict`,
+        {
+          method: "POST",
+          body: { pick },
+        },
+      ),
+    myPick: (matchId: number) =>
+      request<{
+        pick: "a" | "b" | null;
+        correct: boolean | null;
+        count_a: number;
+        count_b: number;
+      }>(`/matches/${matchId}/predict`),
+    postScore: (game: string, score: number) =>
+      request<{ score: number; best: number }>("/games/scores", {
+        method: "POST",
+        body: { game, score },
+      }),
+    topScores: (game: string) =>
+      request<{
+        game: string;
+        top: Array<{
+          user: { id: number; name: string; username: string | null };
+          best: number;
+        }>;
+        my_best: number;
+      }>(`/games/scores?game=${game}`),
+  },
+
   credits: {
     get: () => request<{ balance: number; recent: CreditTx[] }>("/credits"),
     history: () =>
