@@ -1,6 +1,6 @@
 import { Directory, File, Paths } from "expo-file-system";
-import { getThumbnailAsync } from "expo-video-thumbnails";
 import { clipVideo } from "expo-video-clipper";
+import { getThumbnailAsync } from "expo-video-thumbnails";
 
 import { db } from "./db";
 
@@ -91,7 +91,17 @@ export async function saveClip(input: {
   db.runSync(
     `INSERT INTO clips (id, discipline, session_id, rep_number, uri, thumbnail_uri, duration_ms, status, created_at, updated_at)
      VALUES (?, ?, ?, ?, ?, ?, ?, 'recorded', ?, ?)`,
-    [id, input.discipline, input.sessionId, input.repNumber, dest.uri, thumbUri, input.durationMs, now, now],
+    [
+      id,
+      input.discipline,
+      input.sessionId,
+      input.repNumber,
+      dest.uri,
+      thumbUri,
+      input.durationMs,
+      now,
+      now,
+    ],
   );
 
   return getClip(id)!;
@@ -108,7 +118,9 @@ export function listClips(discipline?: Discipline): Clip[] {
 }
 
 export function getClip(id: string): Clip | null {
-  const row = db.getFirstSync<ClipRow>("SELECT * FROM clips WHERE id = ?", [id]);
+  const row = db.getFirstSync<ClipRow>("SELECT * FROM clips WHERE id = ?", [
+    id,
+  ]);
   return row ? rowToClip(row) : null;
 }
 
@@ -173,6 +185,22 @@ export function updateClipNotes(id: string, notes: string): void {
     Date.now(),
     id,
   ]);
+}
+
+/** Persist an analysis result; marks the clip analyzed. */
+export function saveAnalysis(id: string, result: unknown): void {
+  db.runSync(
+    "UPDATE clips SET analysis_json = ?, status = 'analyzed', updated_at = ? WHERE id = ?",
+    [JSON.stringify(result), Date.now(), id],
+  );
+}
+
+export function getAnalysis<T>(id: string): T | null {
+  const row = db.getFirstSync<{ analysis_json: string | null }>(
+    "SELECT analysis_json FROM clips WHERE id = ?",
+    [id],
+  );
+  return row?.analysis_json ? (JSON.parse(row.analysis_json) as T) : null;
 }
 
 /** Remove DB row + video + thumbnail. */

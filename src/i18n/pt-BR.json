@@ -126,6 +126,57 @@
     "deleteHint": "O arquivo de vídeo será removido deste dispositivo.",
     "deleteConfirm": "Excluir"
   },
+  "analysis": {
+    "title": "Treino com IA",
+    "hint": "Analise sua posição corporal neste clipe — roda no seu celular, nada é enviado.",
+    "run": "Analisar com IA",
+    "running": "Analisando quadros… {{pct}}%",
+    "error": "Falha na análise — tente de novo.",
+    "clean": "Muito bom — nenhum alerta importante nesta rep.",
+    "rerun": "Analisar de novo",
+    "metrics": "Medições",
+    "coverageSuffix": "% rastreado",
+    "metric": {
+      "stance_width": "Largura da base",
+      "back_knee_flex": "Flexão do joelho traseiro",
+      "head_stability": "Movimento da cabeça",
+      "elbow_extension": "Extensão do cotovelo dianteiro",
+      "elbow_flex_min": "Ângulo mínimo do braço",
+      "release_height": "Altura da soltura",
+      "front_brace": "Apoio da perna dianteira",
+      "pickup_depth": "Flexão no pickup",
+      "ready_crouch": "Agachamento inicial",
+      "throw_extension": "Extensão do braço no arremesso",
+      "head_over_ball": "Inclinação sobre a bola",
+      "crouch_depth": "Profundidade do agachamento",
+      "gloves_height": "Posição das luvas"
+    },
+    "feedback": {
+      "batting": {
+        "stance": "Confira a largura da sua base — mire na largura dos ombros.",
+        "head": "Sua cabeça se move durante a rebatida — mantenha-a parada e nivelada.",
+        "elbow": "O cotovelo dianteiro fica dobrado no contato — estenda através da bola.",
+        "knee": "Pouca flexão de joelho na preparação — desça um pouco mais."
+      },
+      "bowling": {
+        "elbow": "Seu braço de arremesso dobra visivelmente na ação — mantenha-o esticado (checagem 2D aproximada).",
+        "release": "O ponto de soltura parece baixo — solte no topo do arco.",
+        "brace": "A perna dianteira cede na entrega — um apoio firme dá mais velocidade.",
+        "head": "A cabeça desvia na ação — mantenha-a firme na direção do alvo."
+      },
+      "fielding": {
+        "ready": "Você está em pé na espera — desça para um agachamento mais baixo.",
+        "bend": "Você dobra a cintura, não os joelhos — desça mais para coletar.",
+        "throw": "O arremesso fica perto do corpo — estenda o braço para uma ação completa.",
+        "over": "Você fica ereto sobre a bola — leve a cabeça acima do ponto de coleta."
+      },
+      "keeping": {
+        "crouch": "O agachamento é raso — desça mais para reagir aos dois lados.",
+        "rise": "Você levanta antes da pega — fique baixo até a bola chegar.",
+        "gloves": "As luvas começam altas — posicione-as baixas e suba com a bola."
+      }
+    }
+  },
   "score": {
     "title": "Placar",
     "newMatch": "Nova partida",

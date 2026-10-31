@@ -1,12 +1,28 @@
 import * as MediaLibrary from "expo-media-library";
-import * as Sharing from "expo-sharing";
 import { router, Stack, useLocalSearchParams } from "expo-router";
+import * as Sharing from "expo-sharing";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, Text, View } from "react-native";
+import {
+    ActivityIndicator,
+    Alert,
+    Pressable,
+    ScrollView,
+    Text,
+    View,
+} from "react-native";
 
-import { deleteClip, getClip, trimClip, type Clip } from "@/src/lib/clips";
+import { analyzeClip } from "@/src/analysis/analyze";
+import type { AnalysisResult } from "@/src/analysis/types";
+import {
+    deleteClip,
+    getAnalysis,
+    getClip,
+    saveAnalysis,
+    trimClip,
+    type Clip,
+} from "@/src/lib/clips";
 import { Button, Screen, Subtitle, Title } from "@/src/ui/primitives";
 
 const fmtS = (s: number) => `${s.toFixed(1)}s`;
@@ -18,8 +34,26 @@ export default function ClipDetailScreen() {
   const [markIn, setMarkIn] = useState<number | null>(null);
   const [markOut, setMarkOut] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
+  const [analysis, setAnalysis] = useState<AnalysisResult | null>(() =>
+    getAnalysis<AnalysisResult>(id),
+  );
+  const [aiProgress, setAiProgress] = useState<number | null>(null);
 
   const player = useVideoPlayer(clip?.uri ?? null);
+
+  const runAnalysis = async () => {
+    if (!clip || aiProgress !== null) return;
+    setAiProgress(0);
+    try {
+      const result = await analyzeClip(clip, (p) => setAiProgress(p.progress));
+      saveAnalysis(clip.id, result);
+      setAnalysis(result);
+    } catch (e) {
+      console.warn("analysis failed", e);
+      Alert.alert(t("analysis.error"));
+    }
+    setAiProgress(null);
+  };
 
   if (!clip) {
     return (
@@ -107,7 +141,9 @@ export default function ClipDetailScreen() {
             <Pressable
               onPress={() => setMarkIn(player.currentTime)}
               className={`flex-1 items-center rounded-2xl border py-3 ${
-                markIn !== null ? "border-pitch-500 bg-pitch-900/60" : "border-slate-600/40"
+                markIn !== null
+                  ? "border-pitch-500 bg-pitch-900/60"
+                  : "border-slate-600/40"
               }`}
             >
               <Text className="text-xs text-slate-400">{t("clip.markIn")}</Text>
@@ -118,10 +154,14 @@ export default function ClipDetailScreen() {
             <Pressable
               onPress={() => setMarkOut(player.currentTime)}
               className={`flex-1 items-center rounded-2xl border py-3 ${
-                markOut !== null ? "border-pitch-500 bg-pitch-900/60" : "border-slate-600/40"
+                markOut !== null
+                  ? "border-pitch-500 bg-pitch-900/60"
+                  : "border-slate-600/40"
               }`}
             >
-              <Text className="text-xs text-slate-400">{t("clip.markOut")}</Text>
+              <Text className="text-xs text-slate-400">
+                {t("clip.markOut")}
+              </Text>
               <Text className="text-base font-bold text-slate-100">
                 {markOut !== null ? fmtS(markOut) : "—"}
               </Text>
@@ -135,6 +175,109 @@ export default function ClipDetailScreen() {
               variant="secondary"
               className="mt-4"
             />
+          )}
+        </View>
+
+        {/* AI analysis */}
+        <View className="mt-4 rounded-3xl bg-night-800/80 p-5">
+          <View className="flex-row items-center justify-between">
+            <Text className="text-base font-bold text-slate-100">
+              {t("analysis.title")}
+            </Text>
+            {analysis && (
+              <View className="rounded-full bg-pitch-900/70 px-3 py-1">
+                <Text className="text-xs font-semibold text-pitch-300">
+                  {Math.round(analysis.poseCoverage * 100)}
+                  {t("analysis.coverageSuffix")}
+                </Text>
+              </View>
+            )}
+          </View>
+
+          {!analysis && aiProgress === null && (
+            <>
+              <Text className="mt-1 text-sm text-slate-400">
+                {t("analysis.hint")}
+              </Text>
+              <Button
+                title={t("analysis.run")}
+                onPress={runAnalysis}
+                className="mt-4"
+              />
+            </>
+          )}
+
+          {aiProgress !== null && (
+            <View className="mt-4">
+              <View className="h-2 overflow-hidden rounded-full bg-night-700">
+                <View
+                  className="h-2 rounded-full bg-pitch-500"
+                  style={{ width: `${Math.round(aiProgress * 100)}%` }}
+                />
+              </View>
+              <View className="mt-2 flex-row items-center gap-2">
+                <ActivityIndicator size="small" color="#4ade80" />
+                <Text className="text-sm text-slate-400">
+                  {t("analysis.running", {
+                    pct: Math.round(aiProgress * 100),
+                  })}
+                </Text>
+              </View>
+            </View>
+          )}
+
+          {analysis && (
+            <View className="mt-4">
+              {analysis.feedback.length === 0 ? (
+                <Text className="text-sm text-pitch-300">
+                  {t("analysis.clean")}
+                </Text>
+              ) : (
+                analysis.feedback.map((f) => (
+                  <View
+                    key={f.code}
+                    className="mb-2 flex-row items-start gap-2"
+                  >
+                    <Text className="text-base">
+                      {f.severity === "warn" ? "⚠️" : "💡"}
+                    </Text>
+                    <Text className="flex-1 text-sm text-slate-200">
+                      {t(`analysis.feedback.${f.code}`)}
+                    </Text>
+                  </View>
+                ))
+              )}
+
+              <View className="mt-4 border-t border-slate-700/40 pt-3">
+                <Text className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  {t("analysis.metrics")}
+                </Text>
+                {analysis.metrics.map((m) => (
+                  <View
+                    key={m.key}
+                    className="flex-row items-center justify-between py-1"
+                  >
+                    <Text className="text-sm text-slate-400">
+                      {t(`analysis.metric.${m.key}`)}
+                    </Text>
+                    <Text className="text-sm font-semibold text-slate-200">
+                      {m.value === null
+                        ? "—"
+                        : m.unit === "deg"
+                          ? `${m.value.toFixed(0)}°`
+                          : m.value.toFixed(3)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+
+              <Button
+                title={t("analysis.rerun")}
+                onPress={runAnalysis}
+                variant="ghost"
+                className="mt-3"
+              />
+            </View>
           )}
         </View>
 

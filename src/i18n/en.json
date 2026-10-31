@@ -126,6 +126,57 @@
     "deleteHint": "The video file is removed from this device.",
     "deleteConfirm": "Delete"
   },
+  "analysis": {
+    "title": "AI coaching",
+    "hint": "Analyze your body position on this clip — runs on your phone, nothing is uploaded.",
+    "run": "Analyze with AI",
+    "running": "Analyzing frames… {{pct}}%",
+    "error": "Analysis failed — try again.",
+    "clean": "Looking good — no major flags in this rep.",
+    "rerun": "Re-analyze",
+    "metrics": "Measurements",
+    "coverageSuffix": "% tracked",
+    "metric": {
+      "stance_width": "Stance width",
+      "back_knee_flex": "Back knee flex",
+      "head_stability": "Head movement",
+      "elbow_extension": "Lead elbow extension",
+      "elbow_flex_min": "Min arm angle",
+      "release_height": "Release height",
+      "front_brace": "Front leg brace",
+      "pickup_depth": "Pickup knee bend",
+      "ready_crouch": "Ready crouch",
+      "throw_extension": "Throw arm extension",
+      "head_over_ball": "Lean over ball",
+      "crouch_depth": "Crouch depth",
+      "gloves_height": "Glove position"
+    },
+    "feedback": {
+      "batting": {
+        "stance": "Check your stance width — aim for about shoulder width.",
+        "head": "Your head moves during the shot — keep it still and level.",
+        "elbow": "Lead elbow stays bent at contact — extend through the ball.",
+        "knee": "Very little knee bend in your load — sink a bit lower."
+      },
+      "bowling": {
+        "elbow": "Your bowling arm bends noticeably through the action — keep it straight (rough 2D check).",
+        "release": "Release point looks low — let go at the top of your arc.",
+        "brace": "Front leg bends at delivery — a firmer brace adds pace.",
+        "head": "Head drifts sideways in the action — keep it steady toward target."
+      },
+      "fielding": {
+        "ready": "You're standing tall at the ready — get into a lower crouch.",
+        "bend": "You bend from the waist, not the knees — sink lower to pick up.",
+        "throw": "Throw stays close to the body — extend the arm for a fuller action.",
+        "over": "You stay upright over the ball — get your head above the pickup."
+      },
+      "keeping": {
+        "crouch": "Crouch is shallow — sit deeper so you can spring either way.",
+        "rise": "You rise before the take — stay down until the ball arrives.",
+        "gloves": "Gloves start high — set them low and rise with the ball."
+      }
+    }
+  },
   "score": {
     "title": "Score",
     "newMatch": "New match",

@@ -20,20 +20,21 @@ What the product does, where it lives, and current flag state. Keep in sync with
 | Guided recording ×4 + per-rep clips   | ✅ live   | —                      | `record/[discipline]`, expo-camera                     |
 | Local video library (SQLite)          | ✅ live   | —                      | `library/`, `src/lib/clips.ts`                         |
 | Trim + share + save-to-gallery        | ✅ live   | —                      | `library/[id]`, expo-video-clipper                     |
+| On-device AI coaching (pose packs)    | 🔶 alpha  | —                      | `src/analysis/*`, clip detail; calibrate on device     |
 
 ## Flagged-off until later phases
 
-| Feature                                 | Target phase | Flag                     |
-| --------------------------------------- | ------------ | ------------------------ |
-| On-device AI coaching (MediaPipe packs) | 2            | `coaching_packs`         |
-| Teams + URL/QR invites                  | 3            | —                        |
-| Cloud video upload (R2)                 | 3+           | `cloud_upload`           |
-| Credits ledger + rewarded ads           | 3            | `payments`/`ads.enabled` |
-| Ball-by-ball scorer                     | 4            | —                        |
-| YouTube live + local recording          | 4            | `streaming`              |
-| Tournaments / leaderboards / boards     | 5            | `tournaments`            |
-| Mini-games                              | 6            | `games`                  |
-| Payments (IAP)                          | post-test    | `payments`               |
+| Feature                                   | Target phase | Flag                     |
+| ----------------------------------------- | ------------ | ------------------------ |
+| Live pose camera overlay (PoseCameraView) | 2+           | `coaching_packs`         |
+| Teams + URL/QR invites                    | 3            | —                        |
+| Cloud video upload (R2)                   | 3+           | `cloud_upload`           |
+| Credits ledger + rewarded ads             | 3            | `payments`/`ads.enabled` |
+| Ball-by-ball scorer                       | 4            | —                        |
+| YouTube live + local recording            | 4            | `streaming`              |
+| Tournaments / leaderboards / boards       | 5            | `tournaments`            |
+| Mini-games                                | 6            | `games`                  |
+| Payments (IAP)                            | post-test    | `payments`               |
 
 ## Ad UX policy (permanent)
 

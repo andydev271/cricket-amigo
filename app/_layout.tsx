@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 
+import { syncPacks } from "@/src/analysis/packsRemote";
 import { i18n, initI18n } from "@/src/lib/i18n";
 import { useAuth } from "@/src/stores/auth";
 import { colors } from "@/src/theme";
@@ -38,6 +39,7 @@ export default function RootLayout() {
       await initI18n();
       await bootstrap(i18n.language);
       setReady(true);
+      void syncPacks();
       await SplashScreen.hideAsync();
     })();
   }, [bootstrap]);

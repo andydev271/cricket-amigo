@@ -7,16 +7,16 @@ Tracks what phase we're in and what's shipped. Update this file every phase (and
 
 ## Phase status
 
-| Phase | Name                       | Status  | Notes                                                                   |
-| ----- | -------------------------- | ------- | ----------------------------------------------------------------------- |
-| 0     | Foundation + Auth + Docs   | ✅ done | Scaffolds, auth, onboarding, i18n, friends, flags — 2026-10-30          |
-| 1     | Record + Library           | ✅ done | Guided recording ×4, per-rep capture, trim, SQLite library — 2026-10-30 |
-| 2     | AI Coaching                | ⬜      | MediaPipe pipeline + coaching packs                                     |
-| 3     | Teams + Cloud + Credits    | ⬜      | Invites URL/QR, credits ledger, AdMob (off)                             |
-| 4     | Scorer + Live              | ⬜      | Ball-by-ball, Reverb, YouTube RTMP + local record                       |
-| 5     | Tournaments + Community    | ⬜      | NRR tables, fixtures, leaderboards, boards                              |
-| 6     | Games + Ads + Monetization | ⬜      | Trivia, Catch It, Picks, polite ads                                     |
-| 7     | Brazil launch              | ⬜      | Play internal test, listings                                            |
+| Phase | Name                       | Status       | Notes                                                                     |
+| ----- | -------------------------- | ------------ | ------------------------------------------------------------------------- |
+| 0     | Foundation + Auth + Docs   | ✅ done      | Scaffolds, auth, onboarding, i18n, friends, flags — 2026-10-30            |
+| 1     | Record + Library           | ✅ done      | Guided recording ×4, per-rep capture, trim, SQLite library — 2026-10-30   |
+| 2     | AI Coaching                | 🔶 framework | Pipeline + packs built; needs real-device spike to calibrate — 2026-10-31 |
+| 3     | Teams + Cloud + Credits    | ⬜           | Invites URL/QR, credits ledger, AdMob (off)                               |
+| 4     | Scorer + Live              | ⬜           | Ball-by-ball, Reverb, YouTube RTMP + local record                         |
+| 5     | Tournaments + Community    | ⬜           | NRR tables, fixtures, leaderboards, boards                                |
+| 6     | Games + Ads + Monetization | ⬜           | Trivia, Catch It, Picks, polite ads                                       |
+| 7     | Brazil launch              | ⬜           | Play internal test, listings                                              |
 
 ## Phase 0 — shipped 2026-10-30
 
@@ -70,8 +70,41 @@ Tracks what phase we're in and what's shipped. Update this file every phase (and
 - i18n: all record/library/clip UI in `en` + `pt-BR`
 - Verified: `tsc --noEmit` clean, `expo export --platform ios` bundles all routes
 
+## Phase 2 — framework shipped 2026-10-31 (spike pending device)
+
+### Analysis pipeline (`cricket-amigo`)
+
+- `expo-mediapipe-pose@0.3.0`: bundled pose model, **fully on-device + offline**,
+  native `analyzePoseVideo(uri)` → per-frame 33 landmarks (+3D world landmarks)
+- `src/analysis/engine.ts` — measure layer (world-landmark joint angles, heights,
+  distances, offsets, ratios, position-variance) + phase windows + checks → feedback
+- `src/analysis/packs.ts` — **versioned coaching packs**, 4 disciplines × ~4 metrics
+  (batting stance/head-stability/elbow-extension, bowling elbow-flex/release-height/
+  front-brace, fielding crouch/pickup/throw, keeping crouch/gloves/rise)
+- `src/analysis/packsRemote.ts` — API packs cached in SQLite; newer remote versions
+  auto-win → **rules update OTA without an app release**
+- Clip detail: "Analyze with AI" → progress bar → feedback cards (⚠️/💡) +
+  measurements table + coverage % — results persist on the clip row (`analysis_json`)
+
+### Backend (`cricket-amigo-backend`)
+
+- `GET /api/coaching-packs` — public, versioned canonical packs
+  (`config/coaching_packs.php` is the authoring point) + ETag
+
+### Spike checklist (needs physical device)
+
+- [ ] Record 3+ golden clips per discipline (good + deliberate-bad form)
+- [ ] Verify pose coverage % on real framing (side-on, hip height)
+- [ ] Calibrate pack thresholds from golden clips (values marked v1)
+- [ ] Time full-clip analysis on target hardware (8fps sampling, lite model)
+
 ## Known gaps / next decisions
 
+- **Analysis is compile-verified only** — same dev-build checkpoint as the recorder.
+  `expo-mediapipe-pose` peer range lags (`expo@^57` vs our 58) — installed
+  `--legacy-peer-deps`; watch for native incompat at first `prebuild`.
+- Pack authoring point is `config/coaching_packs.php`; TS copy in
+  `src/analysis/packs.ts` is the offline fallback — keep versions in sync manually.
 - Social login needs Google/Apple client IDs (backend stubs exist)
 - Vhost is HTTP+HTTPS; app points at https://cricketamigo.test via `app.json → extra.apiUrl` — self-signed cert means dev builds must trust it or use http/tunnel for devices. Consider `cloudflared` URL when testing on physical devices.
 - `AGENTS.md`/`CLAUDE.md` in backend came with Laravel skeleton — review for useful conventions.
