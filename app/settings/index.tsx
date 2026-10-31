@@ -100,6 +100,14 @@ export default function SettingsScreen() {
           />
           <Row label={t("teams.title")} onPress={() => router.push("/teams")} />
           <Row
+            label={t("tournaments.title")}
+            onPress={() => router.push("/tournaments")}
+          />
+          <Row
+            label={t("community.title")}
+            onPress={() => router.push("/community/leaderboard")}
+          />
+          <Row
             label={t("profile.credits")}
             value={`${user?.credits ?? 0}`}
             onPress={() => router.push("/credits")}

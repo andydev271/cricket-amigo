@@ -253,6 +253,90 @@ export interface BallInput {
   fielder_id?: number | null;
 }
 
+export interface TournamentListItem {
+  id: number;
+  name: string;
+  city: string | null;
+  format: string;
+  overs_limit: number;
+  status: string;
+  teams_count: number;
+  max_teams: number;
+  starts_on: string | null;
+}
+
+export interface TournamentDetail {
+  id: number;
+  name: string;
+  city: string | null;
+  format: string;
+  overs_limit: number;
+  ball_type: string;
+  max_teams: number;
+  status: string;
+  starts_on: string | null;
+  ends_on: string | null;
+  is_organizer: boolean;
+  teams: Array<{ id: number; team_id: number | null; name: string }>;
+  fixtures: Array<{
+    id: number;
+    match_id: number;
+    round: string;
+    team_a: string;
+    team_b: string;
+    status: MatchDetail["status"];
+    score: Array<{
+      batting: string;
+      runs: number;
+      wickets: number;
+      overs: string;
+    }>;
+    result: MatchDetail["result"];
+  }>;
+}
+
+export interface StandingRow {
+  tournament_team_id: number;
+  team_id: number | null;
+  name: string;
+  p: number;
+  w: number;
+  l: number;
+  t: number;
+  nr: number;
+  pts: number;
+  nrr: number;
+}
+
+export interface BoardPost {
+  id: number;
+  kind: string;
+  city: string | null;
+  text: string;
+  user: Pick<ApiUser, "id" | "name" | "username" | "avatar_url"> | null;
+  team: { id: number; name: string } | null;
+  mine: boolean;
+  created_at: string;
+}
+
+export interface MatchRequestItem {
+  id: number;
+  from: { id: number; name: string } | null;
+  to: { id: number; name: string } | null;
+  message: string | null;
+  proposed_at: string | null;
+  status: string;
+  match_id: number | null;
+  can_respond: boolean;
+}
+
+export interface LeaderboardEntry {
+  user: Pick<ApiUser, "id" | "name" | "username" | "avatar_url" | "city">;
+  runs?: number;
+  balls?: number;
+  wickets?: number;
+}
+
 export interface Flags {
   free_mode: boolean;
   min_supported_version: string;
@@ -425,6 +509,89 @@ export const api = {
         method: "PUT",
         body: { status },
       }),
+  },
+
+  tournaments: {
+    list: (params?: { city?: string; status?: string }) => {
+      const qs = params
+        ? "?" +
+          new URLSearchParams(
+            Object.entries(params).filter(([, v]) => v) as [string, string][],
+          ).toString()
+        : "";
+      return request<{ data: TournamentListItem[] }>(`/tournaments${qs}`).then(
+        (r) => r.data,
+      );
+    },
+    create: (data: {
+      name: string;
+      city?: string;
+      format?: string;
+      overs_limit?: number;
+      ball_type?: string;
+      max_teams?: number;
+      starts_on?: string;
+      ends_on?: string;
+    }) =>
+      request<TournamentDetail>("/tournaments", { method: "POST", body: data }),
+    get: (id: number) => request<TournamentDetail>(`/tournaments/${id}`),
+    registerTeam: (id: number, data: { team_id?: number; name?: string }) =>
+      request(`/tournaments/${id}/teams`, { method: "POST", body: data }),
+    generateFixtures: (id: number) =>
+      request<{ fixtures: number }>(`/tournaments/${id}/fixtures`, {
+        method: "POST",
+      }),
+    standings: (id: number) =>
+      request<StandingRow[]>(`/tournaments/${id}/standings`),
+    setStatus: (id: number, status: string) =>
+      request(`/tournaments/${id}`, { method: "PUT", body: { status } }),
+  },
+
+  community: {
+    follow: (type: "team" | "user", id: number) =>
+      request<{ following: boolean }>("/follows", {
+        method: "POST",
+        body: { type, id },
+      }),
+    board: (params?: { kind?: string; city?: string }) => {
+      const qs = params
+        ? "?" +
+          new URLSearchParams(
+            Object.entries(params).filter(([, v]) => v) as [string, string][],
+          ).toString()
+        : "";
+      return request<{ data: BoardPost[] }>(`/looking-for${qs}`).then(
+        (r) => r.data,
+      );
+    },
+    post: (data: {
+      kind: string;
+      team_id?: number;
+      city?: string;
+      text: string;
+    }) => request<BoardPost>("/looking-for", { method: "POST", body: data }),
+    closePost: (id: number) =>
+      request(`/looking-for/${id}/close`, { method: "POST" }),
+    challenge: (
+      teamId: number,
+      data: { to_team_id: number; message?: string; proposed_at?: string },
+    ) => request(`/teams/${teamId}/challenges`, { method: "POST", body: data }),
+    requests: () =>
+      request<{ data: MatchRequestItem[] }>("/match-requests").then(
+        (r) => r.data,
+      ),
+    respond: (id: number, action: "accept" | "decline" | "cancel") =>
+      request<{ status: string; match_id?: number }>(
+        `/match-requests/${id}/respond`,
+        {
+          method: "POST",
+          body: { action },
+        },
+      ),
+    leaderboards: () =>
+      request<{ batting: LeaderboardEntry[]; bowling: LeaderboardEntry[] }>(
+        "/leaderboards",
+      ),
   },
 
   credits: {

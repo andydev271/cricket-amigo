@@ -28,6 +28,10 @@ What the product does, where it lives, and current flag state. Keep in sync with
 | Match wizard + hub                    | ✅ live   | —                      | `match/new`, `match/[id]`                              |
 | Live score (websocket)                | ✅ live   | —                      | Reverb `match.{id}`, watch screen                      |
 | YouTube RTMP stream                   | ✅ live   | `streaming`            | `match/[id]/stream`, api.video SDK                     |
+| Tournaments (league)                  | ✅ live   | `tournaments`          | `tournaments/`, round-robin fixtures                   |
+| Points table + NRR                    | ✅ live   | —                      | `GET /tournaments/{id}/standings`                      |
+| Follows / Looking For / challenges    | ✅ live   | —                      | `community/`, match_requests                           |
+| Leaderboards                          | ✅ live   | —                      | `GET /leaderboards`, registered users only             |
 
 ## Flagged-off until later phases
 
@@ -37,7 +41,6 @@ What the product does, where it lives, and current flag state. Keep in sync with
 | Teams + URL/QR invites                    | 3            | —                        |
 | Cloud video upload (R2)                   | 3+           | `cloud_upload`           |
 | Credits ledger + rewarded ads             | 3            | `payments`/`ads.enabled` |
-| Tournaments / leaderboards / boards       | 5            | `tournaments`            |
 | Mini-games                                | 6            | `games`                  |
 | Payments (IAP)                            | post-test    | `payments`               |
 

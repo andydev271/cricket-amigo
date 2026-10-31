@@ -14,7 +14,7 @@ Tracks what phase we're in and what's shipped. Update this file every phase (and
 | 2     | AI Coaching                | 🔶 framework | Pipeline + packs built; needs real-device spike to calibrate — 2026-10-31 |
 | 3     | Teams + Cloud + Credits    | ✅ done      | Teams, invites URL/QR, credits ledger, clip upload — 2026-10-31           |
 | 4     | Scorer + Live              | ✅ done      | Scoring engine, Reverb broadcast, RTMP stream console — 2026-10-31        |
-| 5     | Tournaments + Community    | ⬜           | NRR tables, fixtures, leaderboards, boards                                |
+| 5     | Tournaments + Community    | ✅ done      | League tournaments w/ NRR, follows, Looking For, challenges — 2026-10-31 |
 | 6     | Games + Ads + Monetization | ⬜           | Trivia, Catch It, Picks, polite ads                                       |
 | 7     | Brazil launch              | ⬜           | Play internal test, listings                                              |
 
@@ -157,6 +157,35 @@ Tracks what phase we're in and what's shipped. Update this file every phase (and
   **Stream key stays on-device** — never sent to our server
 - Score tab = match list (live-first); Live tab = live matches for spectators
 - `src/lib/livestream.ts` + `.web.ts` platform split keeps codegen out of web bundle
+
+## Phase 5 — shipped 2026-10-31
+
+### Backend (`cricket-amigo-backend`)
+
+- **Tournaments:** `tournaments` (format/overs/ball/max_teams/status/points config)
+  + `tournament_teams` (linked app team or free name) + `tournament_matches`
+  fixtures linking to real `matches` rows — scoring reuses the Phase-4 engine
+- **Fixtures:** `TournamentService` circle-method round-robin (BYE-safe, home/away
+  alternation) → scheduled matches seeded from team rosters
+- **Standings:** `StandingsService` computes P/W/L/NR/pts/NRR on the fly from
+  completed fixture innings — ICC rule: all-out charges full over allocation
+- **Community:** `follows` (polymorphic team/user toggle), `looking_for_posts`
+  board (4 kinds, city filter, close), `match_requests` (challenge → accept
+  creates a scheduled match from both rosters), `GET /leaderboards` aggregates
+  runs/balls/wickets for registered users across all deliveries
+- 54 tests / 236 assertions green; tournament→fixtures→standings smoke-tested live
+
+### Mobile (`cricket-amigo`)
+
+- `tournaments/` — list w/ status + team count; `new` create form; `[id]` detail
+  tabs: **Table** (live NRR standings), **Fixtures** (tap → match hub, live
+  scores + results), **Teams** (register my team or any name; organizer
+  "Generate fixtures" button)
+- `community/leaderboard` — batting/bowling toggle, rank cards
+- `community/looking-for` — board feed, kind filters, compose + close own posts
+- `community/requests` — accept → jumps straight to the created match
+- Team detail: **Follow** toggle + **Challenge** (pick which of my teams sends it)
+- Friends screen: community chips; Settings: Tournaments + Community rows
 
 ## Known gaps / next decisions
 

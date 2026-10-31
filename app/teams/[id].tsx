@@ -1,8 +1,8 @@
+import { Image } from "expo-image";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, ScrollView, Share, Text, View } from "react-native";
-import { Image } from "expo-image";
 import QRCode from "react-native-qrcode-svg";
 
 import { api, type Team } from "@/src/lib/api";
@@ -41,6 +41,56 @@ export default function TeamDetailScreen() {
       console.warn(e);
     }
     setBusy(false);
+  };
+
+  const [following, setFollowing] = useState(false);
+  const [myTeams, setMyTeams] = useState<{ id: number; name: string }[]>([]);
+
+  useEffect(() => {
+    api.teams
+      .list()
+      .then(setMyTeams)
+      .catch(() => {});
+  }, []);
+
+  const toggleFollow = async () => {
+    if (!team) return;
+    try {
+      const res = await api.community.follow("team", team.id);
+      setFollowing(res.following);
+    } catch {}
+  };
+
+  /** Challenge: pick which of MY teams sends it. */
+  const challenge = () => {
+    if (!team) return;
+    const others = myTeams.filter((mt) => mt.id !== team.id);
+    if (others.length === 0) {
+      Alert.alert(t("community.challenge"), t("community.needTeam"));
+      return;
+    }
+    Alert.alert(
+      t("community.challengeTitle"),
+      t("community.challengePick", { team: team.name }),
+      [
+        ...others.map((mt) => ({
+          text: mt.name,
+          onPress: async () => {
+            setBusy(true);
+            try {
+              await api.community.challenge(mt.id, { to_team_id: team.id });
+              Alert.alert(
+                t("community.challenge"),
+                t("community.challengeSent"),
+              );
+            } finally {
+              setBusy(false);
+            }
+          },
+        })),
+        { text: t("common.cancel"), style: "cancel" as const },
+      ],
+    );
   };
 
   const shareInvite = async () => {
@@ -129,6 +179,22 @@ export default function TeamDetailScreen() {
           </Card>
         )}
 
+        <View className="mt-5 flex-row gap-3">
+          <Button
+            title={following ? t("community.following") : t("community.follow")}
+            variant="secondary"
+            onPress={toggleFollow}
+            className="flex-1 py-3"
+          />
+          <Button
+            title={t("community.challenge")}
+            variant="secondary"
+            onPress={challenge}
+            loading={busy}
+            className="flex-1 py-3"
+          />
+        </View>
+
         <Text className="mb-2 mt-6 text-xs font-bold uppercase tracking-wide text-slate-400">
           {t("teams.roster")}
         </Text>
@@ -141,7 +207,10 @@ export default function TeamDetailScreen() {
               <View className="flex-row items-center gap-3">
                 <View className="h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-night-700">
                   {m.avatar_url ? (
-                    <Image source={{ uri: m.avatar_url }} style={{ width: 40, height: 40 }} />
+                    <Image
+                      source={{ uri: m.avatar_url }}
+                      style={{ width: 40, height: 40 }}
+                    />
                   ) : (
                     <Text className="font-bold text-pitch-400">
                       {(m.name?.[0] ?? "?").toUpperCase()}
@@ -154,7 +223,9 @@ export default function TeamDetailScreen() {
                     {m.id === me?.id ? ` ${t("teams.you")}` : ""}
                   </Text>
                   {m.username && (
-                    <Text className="text-xs text-slate-400">@{m.username}</Text>
+                    <Text className="text-xs text-slate-400">
+                      @{m.username}
+                    </Text>
                   )}
                 </View>
               </View>
